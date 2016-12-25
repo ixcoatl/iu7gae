@@ -27,8 +27,6 @@ public class ixDefinicionDeColumna implements Serializable
     private boolean soloLecturaCrear = false;
     private String titulo = null;
 
-    private String filtro = null;
-
     /**
      * @return the nombre
      */
@@ -195,19 +193,4 @@ public class ixDefinicionDeColumna implements Serializable
         return this;
     }
 
-    /**
-     * @return the filtro
-     */
-    public String getFiltro()
-    {
-        return filtro;
-    }
-
-    /**
-     * @param filtro the filtro to set
-     */
-    public void setFiltro(String filtro)
-    {
-        this.filtro = filtro;
-    }
 }

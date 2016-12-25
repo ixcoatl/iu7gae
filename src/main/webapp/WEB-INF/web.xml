@@ -4,7 +4,7 @@
 
     <servlet>
         <servlet-name>App</servlet-name>
-        <servlet-class>com.coatl.pruebas.MyServlet</servlet-class>
+        <servlet-class>com.vaadin.server.GAEVaadinServlet</servlet-class>
         <init-param>
             <param-name>UI</param-name>
             <param-value>com.coatl.pruebas.MyUI</param-value>

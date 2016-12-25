@@ -65,21 +65,10 @@ public class ixABCDialogosGAE extends ixABCDialogos
             ixDefinicionDeColumna defCol = this.getDefinicionDeColumna(colVis[nCol]);
 
             filterField.addStyleName(ValoTheme.TEXTFIELD_TINY);
-            //filterField.setInputPrompt("Filter");
+            filterField.setInputPrompt("Filtro");
 
-            // Set filter field width based on data type
+
             /*
-            if (grid.getContainerDataSource()
-                    .getType(pid).equals(Integer.class))
-            {
-                filterField.setColumns(5);
-                cell.setStyleName("rightalign");
-            } else
-            {
-                filterField.setColumns(8);
-            }
-             */
- /*
             // Update filter When the filter input is changed
             filterField.addTextChangeListener(change ->
                     {
