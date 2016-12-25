@@ -28,7 +28,7 @@
 
     <servlet>
         <servlet-name>PDS1</servlet-name>
-        <servlet-class>com.coatl.pruebas.MyServlet</servlet-class>
+        <servlet-class>com.vaadin.server.GAEVaadinServlet</servlet-class>
         <init-param>
             <param-name>UI</param-name>
             <param-value>com.coatl.pruebas.datastore.DataStoreUI</param-value>
@@ -51,7 +51,7 @@
 
     <servlet>
         <servlet-name>PABC</servlet-name>
-        <servlet-class>com.coatl.pruebas.MyServlet</servlet-class>
+        <servlet-class>com.vaadin.server.GAEVaadinServlet</servlet-class>
         <init-param>
             <param-name>UI</param-name>
             <param-value>com.coatl.pruebas.abc.ABC_UI</param-value>
