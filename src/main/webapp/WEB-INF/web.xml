@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+
+    <servlet>
+        <servlet-name>App</servlet-name>
+        <servlet-class>com.coatl.pruebas.MyServlet</servlet-class>
+        <init-param>
+            <param-name>UI</param-name>
+            <param-value>com.coatl.pruebas.MyUI</param-value>
+        </init-param>
+        <init-param>
+            <param-name>legacyPropertyToString</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>App</servlet-name>
+        <url-pattern>/MiApp/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>App</servlet-name>
+        <url-pattern>/VAADIN/*</url-pattern>
+    </servlet-mapping>
+
+
+
+
+    <servlet>
+        <servlet-name>PDS1</servlet-name>
+        <servlet-class>com.coatl.pruebas.MyServlet</servlet-class>
+        <init-param>
+            <param-name>UI</param-name>
+            <param-value>com.coatl.pruebas.datastore.DataStoreUI</param-value>
+        </init-param>
+        <init-param>
+            <param-name>legacyPropertyToString</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PDS1</servlet-name>
+        <url-pattern>/datastore/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PDS1</servlet-name>
+        <url-pattern>/VAADIN/*</url-pattern>
+    </servlet-mapping>
+
+
+
+    <servlet>
+        <servlet-name>PABC</servlet-name>
+        <servlet-class>com.coatl.pruebas.MyServlet</servlet-class>
+        <init-param>
+            <param-name>UI</param-name>
+            <param-value>com.coatl.pruebas.abc.ABC_UI</param-value>
+        </init-param>
+        <init-param>
+            <param-name>legacyPropertyToString</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PABC</servlet-name>
+        <url-pattern>/abc/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PABC</servlet-name>
+        <url-pattern>/VAADIN/*</url-pattern>
+    </servlet-mapping>
+
+
+
+</web-app>
