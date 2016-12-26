@@ -14,6 +14,8 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilter;
@@ -98,20 +100,49 @@ public class ixABCDialogosGAE extends ixABCDialogos
         for (String col : colVis)
         {
             ixDefinicionDeColumna defCol = this.getDefinicionDeColumna(colVis[nCol]);
-            nCol++;
+
             if (defCol.tieneFiltro())
             {
                 String cadf = defCol.getFiltro();
                 if (cadf != null && cadf.length() > 0)
                 {
-                    Filter keyFilter
-                           = new FilterPredicate(colVis[nCol],
-                                                 FilterOperator.EQUAL,
-                                                 cadf);
-                    filtros.add(keyFilter);
-                    System.out.println("  Filtrando " + colVis[nCol] + " >= " + cadf);
+
+                    if (colVis[nCol].equals("id"))
+                    {
+
+                        Key llave = KeyFactory.createKey(this.getNombreTabla(), cadf);
+                        Filter propertyFilter
+                               = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+                                                     FilterOperator.GREATER_THAN_OR_EQUAL,
+                                                     llave);
+                        filtros.add(propertyFilter);
+
+                        llave = KeyFactory.createKey(this.getNombreTabla(), cadf + "\ufffd");
+                        propertyFilter
+                        = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+                                              FilterOperator.LESS_THAN,
+                                              llave);
+                        filtros.add(propertyFilter);
+                        System.out.println("  Filtrando ID " + colVis[nCol] + " >= " + cadf);
+                    } else
+                    {
+
+                        Filter propertyFilter
+                               = new FilterPredicate(colVis[nCol],
+                                                     FilterOperator.GREATER_THAN_OR_EQUAL,
+                                                     cadf);
+                        filtros.add(propertyFilter);
+                        propertyFilter
+                        = new FilterPredicate(colVis[nCol],
+                                              FilterOperator.LESS_THAN,
+                                              cadf + "\ufffd");
+                        filtros.add(propertyFilter);
+                        //filtros.add(propertyFilter);
+                        System.out.println("  Filtrando propiedad " + colVis[nCol] + " >= " + cadf);
+                    }
                 }
             }
+            nCol++;
         }
         if (filtros.size() > 1)
         {
