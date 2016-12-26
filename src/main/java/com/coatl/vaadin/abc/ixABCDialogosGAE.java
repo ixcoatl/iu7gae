@@ -12,9 +12,15 @@ import com.coatl.vaadin.abc.filtro.ixFiltroDeTexto;
 import com.coatl.vaadin.ixUI;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.Grid;
@@ -22,6 +28,7 @@ import com.vaadin.ui.Grid.HeaderCell;
 import com.vaadin.ui.Grid.HeaderRow;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,10 +66,10 @@ public class ixABCDialogosGAE extends ixABCDialogos
 
             if (defCol.tieneFiltro())
             {
-                System.out.println("Se requiere filtro para: " + defCol.getNombre());
+                //System.out.println("Se requiere filtro para: " + defCol.getNombre());
                 if (rengFiltros == null)
                 {
-                    System.out.println("... haciendo renglon de filtros");
+                    //System.out.println("... haciendo renglon de filtros");
                     rengFiltros = grid.appendHeaderRow();
                 }
                 HeaderCell cell = rengFiltros.getCell(pid);
@@ -80,8 +87,45 @@ public class ixABCDialogosGAE extends ixABCDialogos
 
             nCol++;
         }
-        System.out.println("Activar filtro: " + this.getActivarFiltro());
+        //System.out.println("Activar filtro: " + this.getActivarFiltro());
     }
+
+    private void configurarFiltros(Query query)
+    {
+        String[] colVis = this.getArregloColumnasVisibles();
+        int nCol = 0;
+        List<Filter> filtros = new ArrayList();
+        for (String col : colVis)
+        {
+            ixDefinicionDeColumna defCol = this.getDefinicionDeColumna(colVis[nCol]);
+            nCol++;
+            if (defCol.tieneFiltro())
+            {
+                String cadf = defCol.getFiltro();
+                if (cadf != null && cadf.length() > 0)
+                {
+                    Filter keyFilter
+                           = new FilterPredicate(colVis[nCol],
+                                                 FilterOperator.EQUAL,
+                                                 cadf);
+                    filtros.add(keyFilter);
+                    System.out.println("  Filtrando " + colVis[nCol] + " >= " + cadf);
+                }
+            }
+        }
+        if (filtros.size() > 1)
+        {
+            CompositeFilter cf = new CompositeFilter(CompositeFilterOperator.AND, filtros);
+            query.setFilter(cf);
+        }
+        if (filtros.size() == 1)
+        {
+
+            query.setFilter(filtros.get(0));
+        }
+
+    }
+
 
     /*
     * La tabla
@@ -91,6 +135,8 @@ public class ixABCDialogosGAE extends ixABCDialogos
     {
         //DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query(this.getNombreTabla());
+
+        configurarFiltros(query);
         PreparedQuery preparedQuery = IU7.ds.getDS().prepare(query);
         FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 
@@ -209,4 +255,5 @@ public class ixABCDialogosGAE extends ixABCDialogos
         //System.out.println("Marcando " + m.size() + " ids deseleccionados ");
         IU7.ds.fijarAtributoPorIDS(this.getNombreTabla(), m, getColumnaSeleccion(), "0");
     }
+
 }
