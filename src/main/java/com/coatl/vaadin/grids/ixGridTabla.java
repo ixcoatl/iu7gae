@@ -59,6 +59,8 @@ public class ixGridTabla extends ixPanelTripleVertical
     Label infoRenglones = new Label("-");
     Label titulo = new Label();
 
+    private String activarFiltro = null;
+
     private String prefijoColumnaSeleccion = "ixgt_sel_";
 
     private HorizontalLayout encabezado = new HorizontalLayout();
@@ -498,6 +500,22 @@ public class ixGridTabla extends ixPanelTripleVertical
     public void setPrefijoColumnaSeleccion(String prefijoColumnaSeleccion)
     {
         this.prefijoColumnaSeleccion = prefijoColumnaSeleccion;
+    }
+
+    /**
+     * @return the activarFiltro
+     */
+    public String getActivarFiltro()
+    {
+        return activarFiltro;
+    }
+
+    /**
+     * @param activarFiltro the activarFiltro to set
+     */
+    public void setActivarFiltro(String activarFiltro)
+    {
+        this.activarFiltro = activarFiltro;
     }
 
 }

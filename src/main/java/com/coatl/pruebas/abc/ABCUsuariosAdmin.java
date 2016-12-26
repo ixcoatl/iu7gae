@@ -25,7 +25,7 @@ public class ABCUsuariosAdmin extends ixABCDialogosGAE
         this.setColumnasVisibles("activo,id,clave,nombre,ap1,ap2,tel_celular");
         this.setTitulo("Usuarios Administradores");
 
-        this.agregarColumna("id", "Usuario").setRequerido(true).TextField();
+        this.agregarColumna("id", "Usuario").setRequerido(true).requiereFiltro().TextField();
         this.agregarColumna("clave", "Clave de acceso").setRequerido(true).TextField();
         this.agregarColumna("nombre", "Nombre").TextField();
         this.agregarColumna("ap1", "Apellido paterno").TextField();

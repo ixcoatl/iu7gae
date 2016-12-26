@@ -5,6 +5,8 @@
  */
 package com.coatl.ed.filtros;
 
+import java.util.Map;
+
 /**
  *
  * @author matus
@@ -12,7 +14,7 @@ package com.coatl.ed.filtros;
 public class ixCondicionDeFiltro
 {
 
-    public boolean cumple()
+    public boolean cumple(Map<String, Object> m)
     {
         return false;
     }

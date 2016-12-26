@@ -25,7 +25,9 @@ public class ixDefinicionDeColumna implements Serializable
     private boolean soloLectura = false;
     private boolean soloLecturaGuardar = false;
     private boolean soloLecturaCrear = false;
+    private boolean tieneFiltro = false;
     private String titulo = null;
+    private String filtro = "";
 
     /**
      * @return the nombre
@@ -190,6 +192,46 @@ public class ixDefinicionDeColumna implements Serializable
     public ixDefinicionDeColumna setSoloLectura(boolean soloLectura)
     {
         this.soloLectura = soloLectura;
+        return this;
+    }
+
+    /**
+     * @return the filtro
+     */
+    public String getFiltro()
+    {
+        return filtro;
+    }
+
+    /**
+     * @param filtro the filtro to set
+     */
+    public void setFiltro(String filtro)
+    {
+        this.filtro = filtro;
+    }
+
+    /**
+     * @return the tieneFiltro
+     */
+    public boolean tieneFiltro()
+    {
+        return tieneFiltro;
+    }
+
+    /**
+     * @param tieneFiltro the tieneFiltro to set
+     * @return
+     */
+    public ixDefinicionDeColumna setTieneFiltro(boolean tieneFiltro)
+    {
+        this.tieneFiltro = tieneFiltro;
+        return this;
+    }
+
+    public ixDefinicionDeColumna requiereFiltro()
+    {
+        this.tieneFiltro = true;
         return this;
     }
 
