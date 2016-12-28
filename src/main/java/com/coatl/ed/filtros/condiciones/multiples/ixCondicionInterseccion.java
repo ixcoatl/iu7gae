@@ -5,7 +5,7 @@
  */
 package com.coatl.ed.filtros.condiciones.multiples;
 
-import com.coatl.ed.filtros.ixCondicionDeTupla;
+import com.coatl.ed.filtros.ixCondicionDeFiltro;
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ public class ixCondicionInterseccion extends ixCondicionMultiple
     public boolean cumple(Map m)
     {
 
-        for (ixCondicionDeTupla c : condiciones)
+        for (ixCondicionDeFiltro c : condiciones)
         {
             if (!c.cumple(m))
             {

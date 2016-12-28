@@ -17,9 +17,9 @@ import java.util.List;
 public class ixCondicionMultiple extends ixCondicionDeFiltro
 {
 
-    protected List<ixCondicionDeTupla> condiciones = new ArrayList();
+    protected List<ixCondicionDeFiltro> condiciones = new ArrayList();
 
-    public void agregar(ixCondicionDeTupla c)
+    public void agregar(ixCondicionDeFiltro c)
     {
         condiciones.add(c);
     }

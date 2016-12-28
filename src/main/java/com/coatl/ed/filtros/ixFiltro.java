@@ -6,9 +6,11 @@
 package com.coatl.ed.filtros;
 
 import com.coatl.ed.filtros.condiciones.cadena.ixCondicionCadenaContieneIgnCaso;
+import com.coatl.ed.filtros.condiciones.cadena.ixCuaquierCampoContieneCadenaIgnCaso;
 import com.coatl.ed.filtros.condiciones.multiples.ixCondicionInterseccion;
 import com.coatl.ed.filtros.condiciones.multiples.ixCondicionMultiple;
 import com.coatl.ed.filtros.condiciones.multiples.ixCondicionUnion;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -20,6 +22,16 @@ public class ixFiltro
 
     Stack<ixCondicionDeFiltro> pila = new Stack();
     private ixCondicionDeFiltro ultimo;
+
+    public boolean cumple(Map m)
+    {
+        if (ultimo == null)
+        {
+            return true;
+        }
+
+        return ultimo.cumple(m);
+    }
 
     public ixFiltro iniciarO()
     {
@@ -46,10 +58,18 @@ public class ixFiltro
         }
     }
 
-    public ixFiltro contieneCadena(String nombre, String v)
+    public ixFiltro agregarContieneCadenaIgnCaso(String nombre, String v)
     {
         ixCondicionMultiple cm = (ixCondicionMultiple) pila.peek();
         cm.agregar(new ixCondicionCadenaContieneIgnCaso(nombre, v));
         return this;
     }
+
+    public ixFiltro agregarCuaquierCampoContieneCadenaIgnCaso(String v)
+    {
+        ixCondicionMultiple cm = (ixCondicionMultiple) pila.peek();
+        cm.agregar(new ixCuaquierCampoContieneCadenaIgnCaso(v));
+        return this;
+    }
+
 }

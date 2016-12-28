@@ -207,7 +207,7 @@ public class ixDataStore
         return null;
     }
 
-    public void entidadAMapa(Entity ee)
+    public Map<String, Object> entidadAMapa(Entity ee)
     {
         Map<String, Object> rese = ee.getProperties();
         Key llave = ee.getKey();
@@ -229,7 +229,7 @@ public class ixDataStore
             Object v = rese.get(k);
             res.put(k, v);
         }
-
+        return res;
     }
 
     /*
@@ -373,7 +373,7 @@ public class ixDataStore
             TablaIF tabla,
             long inicio,
             long tamPagina,
-            ixFiltro f
+            ixFiltro filtro
     )
     {
         String[] aCols = columnas.split(",");
@@ -400,45 +400,51 @@ public class ixDataStore
         while (iter.hasNext())
         {
             Entity ee = iter.next();
-            //Aqui extraeremos las classes de los objetos
-            if (num >= inicio && numPag < tamPagina)
-            {
-                Object reng[] = new Object[aCols.length];
-                for (int i = 0; i < aCols.length; i++)
-                {
-                    if (primero)
-                    {
-                        tabla.agregarClaseColumna(aCols[i].getClass());
-                        //System.out.println("   +Clase [" + i + "]> " + aCols[i].getClass());
-                    }
-                    if (aCols[i].equals("id"))
-                    {
-                        Key llave = ee.getKey();
-                        Object id = null;
 
-                        //System.out.println("  +LLave: " + llave + ", " + llave.isComplete() + ", +" + llave.getId());
-                        if (llave.getId() == 0)
+            Map m = this.entidadAMapa(ee);
+
+            if (filtro != null && filtro.cumple(m))
+            //Aqui extraeremos las classes de los objetos
+            {
+                if (num >= inicio && numPag < tamPagina)
+                {
+                    Object reng[] = new Object[aCols.length];
+                    for (int i = 0; i < aCols.length; i++)
+                    {
+                        if (primero)
                         {
-                            id = limpiarLlave(llave.toString());
+                            tabla.agregarClaseColumna(aCols[i].getClass());
+                            //System.out.println("   +Clase [" + i + "]> " + aCols[i].getClass());
+                        }
+                        if (aCols[i].equals("id"))
+                        {
+                            Key llave = ee.getKey();
+                            Object id = null;
+
+                            //System.out.println("  +LLave: " + llave + ", " + llave.isComplete() + ", +" + llave.getId());
+                            if (llave.getId() == 0)
+                            {
+                                id = limpiarLlave(llave.toString());
+                            } else
+                            {
+                                id = llave.getId();
+                            }
+
+                            reng[i] = id;
                         } else
                         {
-                            id = llave.getId();
+                            reng[i] = ee.getProperties().get(aCols[i]);
+                            //System.out.println("    +++" + aCols[i] + "=" + reng[i]);
                         }
-
-                        reng[i] = id;
-                    } else
-                    {
-                        reng[i] = ee.getProperties().get(aCols[i]);
-                        //System.out.println("    +++" + aCols[i] + "=" + reng[i]);
                     }
-                }
-                primero = false;
-                tabla.agregarRegnglon(reng);
-                numPag++;
+                    primero = false;
+                    tabla.agregarRegnglon(reng);
+                    numPag++;
 
-                if (numPag >= tamPagina)
-                {
-                    return;
+                    if (numPag >= tamPagina)
+                    {
+                        return;
+                    }
                 }
             }
             num++;
