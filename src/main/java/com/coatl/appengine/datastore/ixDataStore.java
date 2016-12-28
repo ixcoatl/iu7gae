@@ -6,6 +6,7 @@
 package com.coatl.appengine.datastore;
 
 import com.coatl.ed.TablaIF;
+import com.coatl.ed.filtros.ixFiltro;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -206,6 +207,31 @@ public class ixDataStore
         return null;
     }
 
+    public void entidadAMapa(Entity ee)
+    {
+        Map<String, Object> rese = ee.getProperties();
+        Key llave = ee.getKey();
+        //System.out.println("LLave: " + llave + ", " + llave.isComplete() + ", +" + llave.getId());
+        if (llave.getId() == 0)
+        {
+            rese.put("id", limpiarLlave(llave.toString()));
+        } else
+        {
+            rese.put("id", llave.getId());
+        }
+
+        //System.out.println("Propiedades obtenidas");
+        Iterator<String> i = rese.keySet().iterator();
+        Map res = new HashMap();
+        while (i.hasNext())
+        {
+            String k = i.next();
+            Object v = rese.get(k);
+            res.put(k, v);
+        }
+
+    }
+
     /*
     * BUSQUEDAS EN MAPAS
      */
@@ -269,6 +295,85 @@ public class ixDataStore
             TablaIF tabla,
             long inicio,
             long tamPagina
+    )
+    {
+        String[] aCols = columnas.split(",");
+        tabla.agregarColumna("id");
+        int n = 0;
+        for (String col : aCols)
+        {
+            aCols[n] = col.toLowerCase();
+            if (!col.equals("id"))
+            {
+                tabla.agregarColumna(col);
+            }
+            n++;
+        }
+
+        //List<Entity> lres = pq.asList(fo);
+        Iterator<Entity> iter = pq.asIterable().iterator();
+
+        boolean primero = true;
+        long num = 0l;
+        long numPag = 0l;
+        //for (Entity ee : lres)
+
+        while (iter.hasNext())
+        {
+            Entity ee = iter.next();
+            //Aqui extraeremos las classes de los objetos
+            if (num >= inicio && numPag < tamPagina)
+            {
+                Object reng[] = new Object[aCols.length];
+                for (int i = 0; i < aCols.length; i++)
+                {
+                    if (primero)
+                    {
+                        tabla.agregarClaseColumna(aCols[i].getClass());
+                        //System.out.println("   +Clase [" + i + "]> " + aCols[i].getClass());
+                    }
+                    if (aCols[i].equals("id"))
+                    {
+                        Key llave = ee.getKey();
+                        Object id = null;
+
+                        //System.out.println("  +LLave: " + llave + ", " + llave.isComplete() + ", +" + llave.getId());
+                        if (llave.getId() == 0)
+                        {
+                            id = limpiarLlave(llave.toString());
+                        } else
+                        {
+                            id = llave.getId();
+                        }
+
+                        reng[i] = id;
+                    } else
+                    {
+                        reng[i] = ee.getProperties().get(aCols[i]);
+                        //System.out.println("    +++" + aCols[i] + "=" + reng[i]);
+                    }
+                }
+                primero = false;
+                tabla.agregarRegnglon(reng);
+                numPag++;
+
+                if (numPag >= tamPagina)
+                {
+                    return;
+                }
+            }
+            num++;
+        }
+        //System.out.println("Leidos " + num + " objetos de la tabla " + q.getKind());
+    }
+
+    public void getBuscarEnTabla(
+            PreparedQuery pq, FetchOptions fo,
+            String columnas,
+            TablaIF tabla,
+            long inicio,
+            long tamPagina,
+            ixFiltro f
     )
     {
         String[] aCols = columnas.split(",");
