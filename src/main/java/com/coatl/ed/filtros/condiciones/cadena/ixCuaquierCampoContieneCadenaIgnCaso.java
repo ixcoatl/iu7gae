@@ -24,6 +24,10 @@ public class ixCuaquierCampoContieneCadenaIgnCaso extends ixCondicionDeFiltro
 
     public ixCuaquierCampoContieneCadenaIgnCaso(String v)
     {
+        if (v != null)
+        {
+            v = v.toLowerCase();
+        }
         this.v = v;
     }
 
@@ -37,12 +41,16 @@ public class ixCuaquierCampoContieneCadenaIgnCaso extends ixCondicionDeFiltro
         Iterator<String> i = m.keySet().iterator();
         while (i.hasNext())
         {
-            String val = (String) m.get(i.next());
-            if (val != null)
+            Object obj = m.get(i.next());
+            if (obj instanceof String)
             {
-                if (val.toLowerCase().contains(v))
+                String val = (String) obj;
+                if (val != null)
                 {
-                    return true;
+                    if (val.toLowerCase().contains(v))
+                    {
+                        return true;
+                    }
                 }
             }
         }
