@@ -212,17 +212,17 @@ public class ixDataStore
         Map<String, Object> rese = ee.getProperties();
         Key llave = ee.getKey();
         //System.out.println("LLave: " + llave + ", " + llave.isComplete() + ", +" + llave.getId());
-        if (llave.getId() == 0)
-        {
-            rese.put("id", limpiarLlave(llave.toString()));
-        } else
-        {
-            rese.put("id", llave.getId());
-        }
 
         //System.out.println("Propiedades obtenidas");
         Iterator<String> i = rese.keySet().iterator();
         Map res = new HashMap();
+        if (llave.getId() == 0)
+        {
+            res.put("id", limpiarLlave(llave.toString()));
+        } else
+        {
+            res.put("id", llave.getId());
+        }
         while (i.hasNext())
         {
             String k = i.next();

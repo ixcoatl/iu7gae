@@ -164,12 +164,14 @@ public class ixABCDialogosGAE extends ixABCDialogos
         String v = this.getFiltro().getValue().trim();
         if (v.equals(""))
         {
-            return null;
+            return new ixFiltro();
         }
 
         ixFiltro f = new ixFiltro();
+        f.iniciarY();
         f.agregarCuaquierCampoContieneCadenaIgnCaso(v);
-        return null;
+        f.terminarTodo();
+        return f;
     }
 
     /*
