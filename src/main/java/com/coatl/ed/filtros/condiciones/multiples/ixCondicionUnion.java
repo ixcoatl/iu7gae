@@ -5,10 +5,7 @@
  */
 package com.coatl.ed.filtros.condiciones.multiples;
 
-import com.coatl.ed.filtros.condiciones.multiples.ixCondicionMultiple;
-import com.coatl.ed.filtros.ixCondicionDeTupla;
-import java.util.ArrayList;
-import java.util.List;
+import com.coatl.ed.filtros.ixCondicionDeFiltro;
 import java.util.Map;
 
 /**
@@ -22,7 +19,7 @@ public class ixCondicionUnion extends ixCondicionMultiple
     public boolean cumple(Map m)
     {
         boolean algunaCumple = false;
-        for (ixCondicionDeTupla c : condiciones)
+        for (ixCondicionDeFiltro c : condiciones)
         {
             if (c.cumple(m))
             {
