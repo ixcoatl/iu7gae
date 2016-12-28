@@ -59,9 +59,9 @@ public class ixGridTabla extends ixPanelTripleVertical
     Label infoPaginas = new Label("-");
     Label infoRenglones = new Label("-");
     Label titulo = new Label();
-    
+
     Label textoFiltro = new Label("Filtro: ");
-    TextField filtro=new TextField();
+    private TextField filtro = new TextField();
 
     private String activarFiltro = null;
 
@@ -86,9 +86,9 @@ public class ixGridTabla extends ixPanelTripleVertical
         getEncabezado().addComponent(titulo);
         titulo.setCaptionAsHtml(true);
         titulo.setStyleName("titulo2");
-        
+
         getEncabezado().addComponent(textoFiltro);
-        getEncabezado().addComponent(filtro);
+        getEncabezado().addComponent(getFiltro());
 
         this.setComponenteSuperior(getEncabezado());
 
@@ -186,8 +186,7 @@ public class ixGridTabla extends ixPanelTripleVertical
             grid.addColumn(titulo, cl);
         }
 
-        this.configurarEncabezados(grid);
-
+        //this.configurarEncabezados(grid);
         List<Object[]> lista = getTabla().getDatos();
         for (Object[] renglonOriginal : lista)
         {
@@ -226,11 +225,12 @@ public class ixGridTabla extends ixPanelTripleVertical
         seleccionar();
     }
 
+    /*
     public void configurarEncabezados(Grid tabla)
     {
 
     }
-
+     */
     public String getColumnaSeleccion()
     {
         return this.getPrefijoColumnaSeleccion();
@@ -523,6 +523,22 @@ public class ixGridTabla extends ixPanelTripleVertical
     public void setActivarFiltro(String activarFiltro)
     {
         this.activarFiltro = activarFiltro;
+    }
+
+    /**
+     * @return the filtro
+     */
+    public TextField getFiltro()
+    {
+        return filtro;
+    }
+
+    /**
+     * @param filtro the filtro to set
+     */
+    public void setFiltro(TextField filtro)
+    {
+        this.filtro = filtro;
     }
 
 }
