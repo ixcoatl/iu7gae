@@ -20,6 +20,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.themes.ValoTheme;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -59,6 +60,7 @@ public class ixGridTabla extends ixPanelTripleVertical
     Label infoPaginas = new Label("-");
     Label infoRenglones = new Label("-");
     Label titulo = new Label();
+    Label sepFiltro = new Label(" ");
 
     Label textoFiltro = new Label("Filtro: ");
     private TextField filtro = new TextField();
@@ -87,7 +89,14 @@ public class ixGridTabla extends ixPanelTripleVertical
         titulo.setCaptionAsHtml(true);
         titulo.setStyleName("titulo2");
 
+        sepFiltro.setCaptionAsHtml(true);
+        sepFiltro.setWidth("21px");
+        textoFiltro.setHeight("32px");
+
+        getEncabezado().addComponent(sepFiltro);
         getEncabezado().addComponent(textoFiltro);
+
+        filtro.addStyleName(ValoTheme.TEXTFIELD_TINY);
         getEncabezado().addComponent(getFiltro());
 
         this.setComponenteSuperior(getEncabezado());
