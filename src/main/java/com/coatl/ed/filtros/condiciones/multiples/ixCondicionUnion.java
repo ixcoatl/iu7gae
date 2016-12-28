@@ -18,14 +18,14 @@ public class ixCondicionUnion extends ixCondicionMultiple
     @Override
     public boolean cumple(Map m)
     {
-        boolean algunaCumple = false;
         for (ixCondicionDeFiltro c : condiciones)
         {
             if (c.cumple(m))
             {
-                algunaCumple = true;
+                return true;
             }
         }
-        return algunaCumple;
+
+        return false;
     }
 }
