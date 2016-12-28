@@ -13,6 +13,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -42,6 +43,9 @@ public class ixABCDialogos extends ixGridTabla
     Button bConfBorrar = new Button("Confirmar borrar");
 
     Label espaciador1 = new Label();
+    Label lBusqueda = new Label();
+    TextField buqueda = new TextField();
+
     private ixUI ixUI;
 
     public ixABCDialogos(ixUI ui)
