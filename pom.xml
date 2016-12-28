@@ -58,6 +58,11 @@
             <artifactId>vaadin-client-compiled</artifactId>
             <version>7.7.3</version>
         </dependency>
+                <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiler</artifactId>
+            <version>7.7.3</version>
+        </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
