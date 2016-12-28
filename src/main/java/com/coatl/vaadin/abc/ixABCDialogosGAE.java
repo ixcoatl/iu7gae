@@ -7,6 +7,7 @@ package com.coatl.vaadin.abc;
 
 import com.coatl.appengine.IU7;
 import com.coatl.appengine.datastore.ixDataStore;
+import com.coatl.ed.filtros.ixFiltro;
 import com.coatl.ed.ixTablaEnMemoria;
 import com.coatl.vaadin.abc.filtro.ixFiltroDeTexto;
 import com.coatl.vaadin.ixUI;
@@ -53,6 +54,7 @@ public class ixABCDialogosGAE extends ixABCDialogos
     * CONFIGURAR LAS COLUMNAS DE LOS ENCABEZADOS
     *
      */
+ /*
     @Override
     public void configurarEncabezados(Grid grid)
     {
@@ -156,7 +158,19 @@ public class ixABCDialogosGAE extends ixABCDialogos
         }
 
     }
+     */
+    public ixFiltro getFiltros()
+    {
+        String v = this.getFiltro().getValue().trim();
+        if (v.equals(""))
+        {
+            return null;
+        }
 
+        ixFiltro f = new ixFiltro();
+        f.agregarCuaquierCampoContieneCadenaIgnCaso(v);
+        return null;
+    }
 
     /*
     * La tabla
@@ -167,7 +181,7 @@ public class ixABCDialogosGAE extends ixABCDialogos
         //DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query(this.getNombreTabla());
 
-        configurarFiltros(query);
+        //configurarFiltros(query);
         PreparedQuery preparedQuery = IU7.ds.getDS().prepare(query);
         FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 
@@ -188,7 +202,8 @@ public class ixABCDialogosGAE extends ixABCDialogos
                 cols,
                 tabla,
                 pagina * renglonesPorPagina, // La posicion de inicio
-                renglonesPorPagina
+                renglonesPorPagina,
+                getFiltros()
         );
 
         return tabla;
