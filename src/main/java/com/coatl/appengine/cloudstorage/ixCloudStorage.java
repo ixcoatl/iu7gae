@@ -7,6 +7,7 @@ package com.coatl.appengine.cloudstorage;
 
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
+import com.google.appengine.tools.cloudstorage.GcsInputChannel;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
@@ -39,7 +40,15 @@ public class ixCloudStorage {
         return Channels.newOutputStream(outputChannel);
     }
 
-    private void copy(InputStream input, OutputStream output) throws IOException {
+    public InputStream getInputString(String cubeta, String archivo) {
+        GcsFilename fileName = new GcsFilename(cubeta, archivo);
+        GcsInputChannel readChannel
+                = gcsService.
+                        openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE);
+        return Channels.newInputStream(readChannel);
+    }
+
+    private void copiar(InputStream input, OutputStream output) throws IOException {
         try {
             byte[] buffer = new byte[BUFFER_SIZE];
             int bytesRead = input.read(buffer);
