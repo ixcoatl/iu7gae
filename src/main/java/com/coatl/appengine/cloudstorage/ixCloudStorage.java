@@ -24,6 +24,7 @@ import java.nio.channels.Channels;
 public class ixCloudStorage {
 
     private static final int BUFFER_SIZE = 2 * 1024 * 1024;
+    private String prefijoCubeta="ixCubeta_9907709990777099077_GGG_";
 
     private final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
             .initialRetryDelayMillis(10)
@@ -34,14 +35,14 @@ public class ixCloudStorage {
     public OutputStream getOutputStream(String cubeta, String archivo)
             throws Exception {
         GcsFileOptions instance = GcsFileOptions.getDefaultInstance();
-        GcsFilename fileName = new GcsFilename(cubeta, archivo);
+        GcsFilename fileName = new GcsFilename(prefijoCubeta+cubeta, archivo);
         GcsOutputChannel outputChannel;
         outputChannel = gcsService.createOrReplace(fileName, instance);
         return Channels.newOutputStream(outputChannel);
     }
 
     public InputStream getInputString(String cubeta, String archivo) {
-        GcsFilename fileName = new GcsFilename(cubeta, archivo);
+        GcsFilename fileName = new GcsFilename(prefijoCubeta+cubeta, archivo);
         GcsInputChannel readChannel
                 = gcsService.
                         openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE);
@@ -60,5 +61,12 @@ public class ixCloudStorage {
             input.close();
             output.close();
         }
+    }
+
+    /**
+     * @return the prefijoCubeta
+     */
+    public String getPrefijoCubeta() {
+        return prefijoCubeta;
     }
 }
