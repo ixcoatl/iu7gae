@@ -21,10 +21,11 @@ import java.nio.channels.Channels;
  *
  * @author matus
  */
-public class ixCloudStorage {
+public class ixCloudStorage
+{
 
     private static final int BUFFER_SIZE = 2 * 1024 * 1024;
-    private String prefijoCubeta="ixCubeta_9907709990777099077_GGG_";
+    private String prefijoCubeta = "ixCubeta_9907709990777099077_GGG_";
 
     private final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
             .initialRetryDelayMillis(10)
@@ -33,31 +34,37 @@ public class ixCloudStorage {
             .build());
 
     public OutputStream getOutputStream(String cubeta, String archivo)
-            throws Exception {
+            throws Exception
+    {
         GcsFileOptions instance = GcsFileOptions.getDefaultInstance();
-        GcsFilename fileName = new GcsFilename(prefijoCubeta+cubeta, archivo);
+        GcsFilename fileName = new GcsFilename(getPrefijoCubeta() + cubeta, archivo);
         GcsOutputChannel outputChannel;
         outputChannel = gcsService.createOrReplace(fileName, instance);
         return Channels.newOutputStream(outputChannel);
     }
 
-    public InputStream getInputString(String cubeta, String archivo) {
-        GcsFilename fileName = new GcsFilename(prefijoCubeta+cubeta, archivo);
+    public InputStream getInputString(String cubeta, String archivo)
+    {
+        GcsFilename fileName = new GcsFilename(getPrefijoCubeta() + cubeta, archivo);
         GcsInputChannel readChannel
-                = gcsService.
-                        openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE);
+                        = gcsService.
+                openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE);
         return Channels.newInputStream(readChannel);
     }
 
-    private void copiar(InputStream input, OutputStream output) throws IOException {
-        try {
+    private void copiar(InputStream input, OutputStream output) throws IOException
+    {
+        try
+        {
             byte[] buffer = new byte[BUFFER_SIZE];
             int bytesRead = input.read(buffer);
-            while (bytesRead != -1) {
+            while (bytesRead != -1)
+            {
                 output.write(buffer, 0, bytesRead);
                 bytesRead = input.read(buffer);
             }
-        } finally {
+        } finally
+        {
             input.close();
             output.close();
         }
@@ -66,7 +73,16 @@ public class ixCloudStorage {
     /**
      * @return the prefijoCubeta
      */
-    public String getPrefijoCubeta() {
+    public String getPrefijoCubeta()
+    {
         return prefijoCubeta;
+    }
+
+    /**
+     * @param prefijoCubeta the prefijoCubeta to set
+     */
+    public void setPrefijoCubeta(String prefijoCubeta)
+    {
+        this.prefijoCubeta = prefijoCubeta;
     }
 }
