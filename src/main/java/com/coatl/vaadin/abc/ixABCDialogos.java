@@ -34,13 +34,13 @@ public class ixABCDialogos extends ixGridTabla
 
     Map<String, ixDefinicionDeColumna> columnas = new HashMap<String, ixDefinicionDeColumna>();
 
-    Button preguntarCrear = new Button("Crear");
-    Button recargar = new Button("Recargar");
+    Button preguntarCrear = new Button("\u2605 Crear");
+    Button recargar = new Button("\uD83D\uDD0D Buscar");
 
-    Button bCrear = new Button("Crear");
-    Button bGuardar = new Button("Guardar");
-    Button bBorrar = new Button("Borrar");
-    Button bConfBorrar = new Button("Confirmar borrar");
+    Button bCrear = new Button("\u2605 Crear");
+    Button bGuardar = new Button("\uD83D\uDCBE Guardar");
+    Button bBorrar = new Button("\u232B Borrar");
+    Button bConfBorrar = new Button("\u232B Confirmar borrar");
 
     Label espaciador1 = new Label();
     Label lBusqueda = new Label();
@@ -356,10 +356,10 @@ public class ixABCDialogos extends ixGridTabla
         recargar.setStyleName("margen1");
 
         this.getEncabezado().addComponent(espaciador1);
-        this.getEncabezado().addComponent(preguntarCrear);
         this.getEncabezado().addComponent(recargar);
-        //this.getEncabezado().setMargin(true);
+        this.getEncabezado().addComponent(preguntarCrear);
 
+        //this.getEncabezado().setMargin(true);
         preguntarCrear.addClickListener(new Button.ClickListener()
         {
             @Override

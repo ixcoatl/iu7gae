@@ -393,7 +393,8 @@ public class ixDataStore
         Iterator<Entity> iter = pq.asIterable().iterator();
 
         boolean primero = true;
-        long num = 0l;
+        long totalRenglones = 0l;
+        long totalRenglonesFiltrados = 0l;
         long numPag = 0l;
         //for (Entity ee : lres)
 
@@ -406,7 +407,8 @@ public class ixDataStore
             if (filtro != null && filtro.cumple(m))
             //Aqui extraeremos las classes de los objetos
             {
-                if (num >= inicio && numPag < tamPagina)
+                totalRenglonesFiltrados++;
+                if (totalRenglones >= inicio && numPag < tamPagina)
                 {
                     Object reng[] = new Object[aCols.length];
                     for (int i = 0; i < aCols.length; i++)
@@ -440,15 +442,12 @@ public class ixDataStore
                     primero = false;
                     tabla.agregarRegnglon(reng);
                     numPag++;
-
-                    if (numPag >= tamPagina)
-                    {
-                        return;
-                    }
                 }
             }
-            num++;
+            totalRenglones++;
         }
+        tabla.setTotalDeRenglones(totalRenglones);
+        tabla.setTotalDeRenglonesFiltrados(totalRenglonesFiltrados);
         //System.out.println("Leidos " + num + " objetos de la tabla " + q.getKind());
     }
 
