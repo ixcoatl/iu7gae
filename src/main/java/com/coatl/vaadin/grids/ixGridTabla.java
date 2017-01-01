@@ -10,6 +10,7 @@ import com.coatl.ed.ixTablaEnMemoria;
 import com.coatl.vaadin.layouts.ixPanelTripleVertical;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Container;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickListener;
@@ -150,6 +151,16 @@ public class ixGridTabla extends ixPanelTripleVertical
         });
 
         this.setComponenteInferior(paginador);
+
+        filtro.addListener(new FieldEvents.TextChangeListener()
+        {
+            @Override
+            public void textChange(FieldEvents.TextChangeEvent event)
+            {
+                System.out.println("HAY CAMBIOS");
+                armarTabla();
+            }
+        });
 
     }
 
