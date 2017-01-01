@@ -51,6 +51,10 @@ public interface TablaIF
 
     public void setTotalDeRenglones(long t);
 
+    public long getTotalDeRenglonesFiltrados();
+
+    public void setTotalDeRenglonesFiltrados(long t);
+
     public long getPagina();
 
     public void setPagina(long t);

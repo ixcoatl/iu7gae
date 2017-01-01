@@ -27,6 +27,7 @@ public class ixTablaEnMemoria implements TablaIF, Serializable
     private long totalDeRenglones = 0;
     private long pagina = 0;
     private long renglonesPorPagina = 0;
+    private long renglonesFiltrados = 0;
 
     @Override
     public void agregarRegnglon(Object[] reng)
@@ -203,6 +204,18 @@ public class ixTablaEnMemoria implements TablaIF, Serializable
     public void setRenglonesPorPagina(long renglonesPorPagina)
     {
         this.renglonesPorPagina = renglonesPorPagina;
+    }
+
+    @Override
+    public long getTotalDeRenglonesFiltrados()
+    {
+        return this.renglonesFiltrados;
+    }
+
+    @Override
+    public void setTotalDeRenglonesFiltrados(long t)
+    {
+        this.renglonesFiltrados = t;
     }
 
 }

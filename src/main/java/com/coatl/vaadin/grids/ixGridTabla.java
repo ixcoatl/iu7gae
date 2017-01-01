@@ -50,7 +50,7 @@ public class ixGridTabla extends ixPanelTripleVertical
     //private FetchOptions fetchOptions;
     long pagina = 0;
     long renglonesPorPagina = 25;
-    private long numRengTotales;
+    //private long numRengTotales;
 
     Button anterior = new Button("<Anterior");
     Button siguiente = new Button("Siguiente>");
@@ -133,7 +133,12 @@ public class ixGridTabla extends ixPanelTripleVertical
                 long maxpag = 0;
                 if (renglonesPorPagina > 0)
                 {
-                    maxpag = numRengTotales / renglonesPorPagina;
+                    long tReng = 0;
+                    if (tabla != null)
+                    {
+                        tReng = tabla.getTotalDeRenglones();
+                    }
+                    maxpag = tReng / renglonesPorPagina;
                 }
 
                 if (pagina > maxpag)
@@ -167,7 +172,6 @@ public class ixGridTabla extends ixPanelTripleVertical
     {
 
         this.tabla = getTabla(pagina, 25);
-        this.numRengTotales = tabla.getTotalDeRenglones();
 
         grid = new Grid();
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -228,7 +232,7 @@ public class ixGridTabla extends ixPanelTripleVertical
         }
 
         grid.setSizeFull();
-        armarPaginador();
+        hacerPaginador();
 
         this.setComponenteMedio(grid);
         seleccionar();
@@ -268,13 +272,38 @@ public class ixGridTabla extends ixPanelTripleVertical
         }
     }
 
-    public void armarPaginador()
+    public void hacerPaginador()
     {
-        String infoPag = "| Página " + this.pagina + " de " + (this.numRengTotales / this.renglonesPorPagina) + " |";
-        this.infoPaginas.setValue(infoPag);
+        if (tabla.getTotalDeRenglonesFiltrados() == 0)
+        {
+            long nPaginas = (tabla.getTotalDeRenglones() / tabla.getRenglonesPorPagina());
+            String infoPag = "| Página " + tabla.getPagina() + " de " + nPaginas + " |";
+            this.infoPaginas.setValue(infoPag);
 
-        String infoReng = "| Renglón " + (this.pagina * this.renglonesPorPagina + 1) + " a " + (this.pagina * this.renglonesPorPagina + this.renglonesPorPagina) + " de " + this.numRengTotales + " |";
-        this.infoRenglones.setValue(infoReng);
+            long rengIni = (this.pagina * this.renglonesPorPagina + 1);
+            long rengFin = (this.pagina * this.renglonesPorPagina + this.renglonesPorPagina);
+            if (rengFin > tabla.getTotalDeRenglones())
+            {
+                rengFin = tabla.getTotalDeRenglones();
+            }
+            String infoReng = "| Renglón " + rengIni + " a " + rengFin + " de " + tabla.getTotalDeRenglones() + " |";
+            this.infoRenglones.setValue(infoReng);
+        } else
+        {
+            long nPaginas = (tabla.getTotalDeRenglonesFiltrados() / tabla.getRenglonesPorPagina());
+            String infoPag = "| Página " + tabla.getPagina() + " de " + nPaginas + " |";
+            this.infoPaginas.setValue(infoPag);
+
+            long rengIni = (this.pagina * this.renglonesPorPagina + 1);
+            long rengFin = (this.pagina * this.renglonesPorPagina + this.renglonesPorPagina);
+            if (rengFin > tabla.getTotalDeRenglonesFiltrados())
+            {
+                rengFin = tabla.getTotalDeRenglonesFiltrados();
+            }
+            String infoReng = "| Renglón " + rengIni + " a " + rengFin + " de " + tabla.getTotalDeRenglonesFiltrados() + " filtrados, " + tabla.getTotalDeRenglones() + " totales |";
+            this.infoRenglones.setValue(infoReng);
+        }
+
     }
 
     /**
