@@ -67,7 +67,7 @@ public class ixABCDialogos extends ixGridTabla
             cmd = cmd.trim();
             if (!cmd.equals(""))
             {
-                System.out.println("CMD> [" + cmd + "]");
+                //System.out.println("CMD> [" + cmd + "]");
                 if (cmd.equals("bConfBorrar"))
                 {
                     agregar(pila, bConfBorrar);
@@ -110,7 +110,7 @@ public class ixABCDialogos extends ixGridTabla
                 } else if (cmd.equals("."))
                 {
                     ultimo = pila.pop();
-                    System.out.println("Sacando de pila a " + ultimo);
+                    //System.out.println("Sacando de pila a " + ultimo);
                 } else if (cmd.startsWith("'"))
                 {
                     String txt = cmd.substring(1);
@@ -123,7 +123,7 @@ public class ixABCDialogos extends ixGridTabla
                     agregar(pila, l);
                 } else
                 {
-                    System.out.println("Buscando columna [" + cmd + "]");
+                    //System.out.println("Buscando columna [" + cmd + "]");
                     ixDefinicionDeColumna columna = columnas.get(cmd);
                     String claseControl = columna.getClaseControl();
                     if (claseControl == null)
@@ -196,12 +196,12 @@ public class ixABCDialogos extends ixGridTabla
         {
             if (pila.size() == 0)
             {
-                System.out.println("   +Agregando " + comp + " a pila");
+                //System.out.println("   +Agregando " + comp + " a pila");
                 pila.add(comp);
                 return;
             }
 
-            System.out.println("   +Agregando " + comp + " a " + pila);
+            //System.out.println("   +Agregando " + comp + " a " + pila);
             Layout lo = (Layout) pila.peek();
             lo.addComponent(comp);
 
@@ -346,14 +346,14 @@ public class ixABCDialogos extends ixGridTabla
 
     public void configurarInterfaz()
     {
-        preguntarCrear.setHeight("25px");
-        recargar.setHeight("25px");
+        //preguntarCrear.setHeight("25px");
+        //recargar.setHeight("25px");
         espaciador1.setCaption("&nbsp;");
         espaciador1.setCaptionAsHtml(true);
         espaciador1.setWidth("40px");
 
-        preguntarCrear.setStyleName("margen1");
-        recargar.setStyleName("margen1");
+        preguntarCrear.setStyleName("margin3");
+        recargar.setStyleName("margin3");
 
         this.getEncabezado().addComponent(espaciador1);
         this.getEncabezado().addComponent(recargar);

@@ -163,7 +163,7 @@ public class ixABCDialogosGAE extends ixABCDialogos
             if (!cad.trim().equals(""))
             {
                 f.agregarCuaquierCampoContieneCadenaIgnCaso(cad);
-                System.out.println("Filtrando [" + cad + "]");
+                //System.out.println("Filtrando [" + cad + "]");
             }
         }
 
