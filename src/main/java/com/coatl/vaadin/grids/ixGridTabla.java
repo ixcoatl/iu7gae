@@ -7,9 +7,12 @@ package com.coatl.vaadin.grids;
 
 import com.coatl.ed.TablaIF;
 import com.coatl.ed.ixTablaEnMemoria;
+import com.coatl.vaadin.abc.filtro.ixCambioDeFiltroGridTabla;
 import com.coatl.vaadin.layouts.ixPanelTripleVertical;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Container;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.MouseEvents;
@@ -17,6 +20,7 @@ import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -74,6 +78,8 @@ public class ixGridTabla extends ixPanelTripleVertical
 
     private Map<String, String> titulosColumnas = new HashMap();
 
+    private CheckBox cualquiera = new CheckBox("Cualquiera");
+
     public ixGridTabla()
     {
         configurar();
@@ -99,6 +105,8 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         filtro.addStyleName(ValoTheme.TEXTFIELD_TINY);
         getEncabezado().addComponent(getFiltro());
+        getEncabezado().addComponent(cualquiera);
+        this.getEncabezado().setMargin(true);
 
         this.setComponenteSuperior(getEncabezado());
 
@@ -150,17 +158,17 @@ public class ixGridTabla extends ixPanelTripleVertical
             }
         });
 
-        this.setComponenteInferior(paginador);
-
-        filtro.addListener(new FieldEvents.TextChangeListener()
+        cualquiera.addListener(new Property.ValueChangeListener()
         {
-            @Override
-            public void textChange(FieldEvents.TextChangeEvent event)
+            public void valueChange(ValueChangeEvent event)
             {
-                System.out.println("HAY CAMBIOS");
                 armarTabla();
             }
         });
+
+        this.setComponenteInferior(paginador);
+
+        filtro.addListener(new ixCambioDeFiltroGridTabla(this));
 
     }
 
@@ -588,6 +596,22 @@ public class ixGridTabla extends ixPanelTripleVertical
     public void setFiltro(TextField filtro)
     {
         this.filtro = filtro;
+    }
+
+    /**
+     * @return the cualquiera
+     */
+    public CheckBox getCualquiera()
+    {
+        return cualquiera;
+    }
+
+    /**
+     * @param cualquiera the cualquiera to set
+     */
+    public void setCualquiera(CheckBox cualquiera)
+    {
+        this.cualquiera = cualquiera;
     }
 
 }
