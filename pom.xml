@@ -21,7 +21,11 @@
         <maven>3.1.0</maven>
     </prerequisites>
 
+    <repositories>
+    </repositories>
+
     <dependencies>
+
         <!-- Compile/runtime dependencies -->
         <dependency>
             <groupId>com.google.appengine</groupId>
@@ -99,6 +103,9 @@
             <artifactId>appengine-mapreduce</artifactId>
             <version>0.8.5</version>
         </dependency>
+
+
+
     </dependencies>
 
     <build>
@@ -180,7 +187,7 @@
                     <draftCompile>false</draftCompile>
                     <compileReport>false</compileReport>
                     <style>OBF</style>
-                    <strict>true</strict>
+                    <strict>false</strict>
                     <runTarget>http://localhost:8080/iu7v1.0</runTarget>
                 </configuration>
                 <executions>
@@ -196,5 +203,9 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
+
+
+
 </project>
