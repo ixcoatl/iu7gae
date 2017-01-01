@@ -149,8 +149,24 @@ public class ixABCDialogosGAE extends ixABCDialogos
         }
 
         ixFiltro f = new ixFiltro();
-        f.iniciarY();
-        f.agregarCuaquierCampoContieneCadenaIgnCaso(v);
+        if (this.getCualquiera().getValue())
+        {
+            f.iniciarO();
+
+        } else
+        {
+            f.iniciarY();
+        }
+        String[] cadenas = v.split(" ");
+        for (String cad : cadenas)
+        {
+            if (!cad.trim().equals(""))
+            {
+                f.agregarCuaquierCampoContieneCadenaIgnCaso(cad);
+                System.out.println("Filtrando [" + cad + "]");
+            }
+        }
+
         f.terminarTodo();
         return f;
     }
@@ -161,6 +177,7 @@ public class ixABCDialogosGAE extends ixABCDialogos
     @Override
     public ixTablaEnMemoria getTabla(long pagina, long renglonesPorPagina)
     {
+        //System.out.println("Obteniendo info");
         //DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query(this.getNombreTabla());
 
