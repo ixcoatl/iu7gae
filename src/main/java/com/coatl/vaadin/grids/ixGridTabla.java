@@ -7,15 +7,20 @@ package com.coatl.vaadin.grids;
 
 import com.coatl.ed.TablaIF;
 import com.coatl.ed.ixTablaEnMemoria;
+import com.coatl.vaadin.abc.filtro.ixCambioDeFiltroGridTabla;
 import com.coatl.vaadin.layouts.ixPanelTripleVertical;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Container;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -73,6 +78,8 @@ public class ixGridTabla extends ixPanelTripleVertical
 
     private Map<String, String> titulosColumnas = new HashMap();
 
+    private CheckBox cualquiera = new CheckBox("Cualquiera");
+
     public ixGridTabla()
     {
         configurar();
@@ -95,9 +102,13 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         getEncabezado().addComponent(sepFiltro);
         getEncabezado().addComponent(textoFiltro);
+        textoFiltro.setStyleName("paddingtop4");
 
         filtro.addStyleName(ValoTheme.TEXTFIELD_TINY);
         getEncabezado().addComponent(getFiltro());
+        getEncabezado().addComponent(cualquiera);
+        cualquiera.setStyleName("paddingtop4");
+        //this.getEncabezado().setMargin(true);
 
         this.setComponenteSuperior(getEncabezado());
 
@@ -149,7 +160,17 @@ public class ixGridTabla extends ixPanelTripleVertical
             }
         });
 
+        cualquiera.addListener(new Property.ValueChangeListener()
+        {
+            public void valueChange(ValueChangeEvent event)
+            {
+                armarTabla();
+            }
+        });
+
         this.setComponenteInferior(paginador);
+
+        filtro.addListener(new ixCambioDeFiltroGridTabla(this));
 
     }
 
@@ -577,6 +598,22 @@ public class ixGridTabla extends ixPanelTripleVertical
     public void setFiltro(TextField filtro)
     {
         this.filtro = filtro;
+    }
+
+    /**
+     * @return the cualquiera
+     */
+    public CheckBox getCualquiera()
+    {
+        return cualquiera;
+    }
+
+    /**
+     * @param cualquiera the cualquiera to set
+     */
+    public void setCualquiera(CheckBox cualquiera)
+    {
+        this.cualquiera = cualquiera;
     }
 
 }
