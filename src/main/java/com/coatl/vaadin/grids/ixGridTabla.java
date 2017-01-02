@@ -10,10 +10,8 @@ import com.coatl.ed.ixTablaEnMemoria;
 import com.coatl.vaadin.abc.filtro.ixCambioDeFiltroGridTabla;
 import com.coatl.vaadin.layouts.ixPanelTripleVertical;
 import com.vaadin.annotations.Theme;
-import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickListener;
@@ -263,10 +261,10 @@ public class ixGridTabla extends ixPanelTripleVertical
     }
 
     /*
-    public void configurarEncabezados(Grid tabla)
-    {
+     public void configurarEncabezados(Grid tabla)
+     {
 
-    }
+     }
      */
     public String getColumnaSeleccion()
     {
@@ -401,19 +399,19 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         }
         /*
-        Iterator<Object> i = rows.iterator();
+         Iterator<Object> i = rows.iterator();
 
-        setSeleccionados(new ArrayList());
+         setSeleccionados(new ArrayList());
 
-        while (i.hasNext())
-        {
-            int n = (int) i.next() - 1;
+         while (i.hasNext())
+         {
+         int n = (int) i.next() - 1;
 
-            Object[] reng = getTabla().getRenglon(n);
-            System.out.println("   Seleccionado> " + n + ": " + reng[0]);
+         Object[] reng = getTabla().getRenglon(n);
+         System.out.println("   Seleccionado> " + n + ": " + reng[0]);
 
-            getSeleccionados().add(reng);
-        }
+         getSeleccionados().add(reng);
+         }
          */
     }
 

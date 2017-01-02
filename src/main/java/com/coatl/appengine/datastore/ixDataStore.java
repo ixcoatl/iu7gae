@@ -91,7 +91,7 @@ public class ixDataStore
     public void borrarPorID(String tabla, String id)
     {
         long idl = 0;
-        if (isInteger(id, 10) && id.length() > 7)
+        if (esEntero(id, 10) && id.length() > 7)
         {
             idl = Long.parseLong(id);
         }
@@ -114,9 +114,11 @@ public class ixDataStore
         datastore.delete(lista);
     }
 
-    public void fijarAtributoPorIDS(String tabla, List<String> m, String prop, String val)
+    public void fijarAtributoPorIDS(String tabla,
+                                    List<String> m,
+                                    String prop,
+                                    String val)
     {
-        //System.out.println("En " + tabla + " marcando seleccion " + prop + "=" + val);
         List<Entity> entidades = new ArrayList();
         for (String id : m)
         {
@@ -131,12 +133,11 @@ public class ixDataStore
             {
 
             }
-            //System.out.println("   +ID=" + id);
         }
         datastore.put(entidades);
     }
 
-    public static boolean isInteger(String s, int radix)
+    public static boolean esEntero(String s, int radix)
     {
         if (s.isEmpty())
         {
@@ -450,6 +451,7 @@ public class ixDataStore
     public void getBuscarEnTablaAgrupando(
             PreparedQuery pq, FetchOptions fo,
             String columnas,
+            String columnasLLave,
             TablaIF tabla,
             long inicio,
             long tamPagina,
@@ -484,8 +486,8 @@ public class ixDataStore
 
             Map m = this.entidadAMapa(ee);
 
-            String llaveAgr = hacerLlave(m, columnas);
-            if (diferentes.containsKey(llaveAgr))
+            String llaveAgr = hacerLlaveSinID(m, columnasLLave);
+            if (!diferentes.containsKey(llaveAgr))
             {
                 if (filtro != null && filtro.cumple(m))
                 {
@@ -501,18 +503,7 @@ public class ixDataStore
                             }
                             if (aCols[i].equals("id"))
                             {
-                                Key llave = ee.getKey();
-                                Object id = null;
-
-                                if (llave.getId() == 0)
-                                {
-                                    id = limpiarLlave(llave.toString());
-                                } else
-                                {
-                                    id = llave.getId();
-                                }
-
-                                reng[i] = id;
+                                reng[i] = llaveAgr;
                             } else
                             {
                                 reng[i] = ee.getProperties().get(aCols[i]);
@@ -520,7 +511,8 @@ public class ixDataStore
                         }
                         primero = false;
                         tabla.agregarRegnglon(reng);
-                        System.out.println("LLave> " + llaveAgr);
+                        diferentes.put(llaveAgr, "1");
+                        //System.out.println("LLave agr> " + llaveAgr);
                         numPag++;
                     }
                 }
@@ -658,26 +650,30 @@ public class ixDataStore
      }
      }
      */
-    private String hacerLlave(Map m, String columnas)
+    private String hacerLlaveSinID(Map m, String columnas)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder llave = new StringBuilder();
+        StringBuilder colss = new StringBuilder();
 
         String[] cols = columnas.split(",");
         int n = 0;
         for (String col : cols)
         {
             col = col.trim();
-            if (!col.equals(" "))
+
+            if (!col.equals(" ") && !col.equals("id"))
             {
+                colss.append(col).append(" ");
                 if (n > 0)
                 {
-                    sb.append("-");
+                    llave.append("-");
                 }
-                sb.append(col);
+                llave.append(m.get(col));
                 n++;
             }
         }
+        //System.out.println("CLlaves> " + colss.toString());
 
-        return sb.toString();
+        return llave.toString();
     }
 }

@@ -46,6 +46,8 @@ public class ixABCDialogos extends ixGridTabla
     Label lBusqueda = new Label();
     TextField buqueda = new TextField();
 
+    private String tipoBusqueda = "";
+
     private ixUI ixUI;
 
     public ixABCDialogos(ixUI ui)
@@ -225,7 +227,7 @@ public class ixABCDialogos extends ixGridTabla
     }
 
     /*
-    * CREAR
+     * CREAR
      */
     public ixDefinicionDeForma defFormaCrear = null;
 
@@ -262,7 +264,7 @@ public class ixABCDialogos extends ixGridTabla
     }
 
     /*
-    * EDITAR
+     * EDITAR
      */
     ixDefinicionDeForma defFormaEditar = null;
 
@@ -295,7 +297,7 @@ public class ixABCDialogos extends ixGridTabla
 
 
     /*
-    * BORRAR
+     * BORRAR
      */
     ixDefinicionDeForma defFormaBorrar = null;
 
@@ -444,12 +446,12 @@ public class ixABCDialogos extends ixGridTabla
     }
 
     /*
-    *
-    *
-    *
-    *
-    *
-    *
+     *
+     *
+     *
+     *
+     *
+     *
      */
     public ixDefinicionDeColumna agregarColumna(String nombre, String titulo)
     {
@@ -536,5 +538,21 @@ public class ixABCDialogos extends ixGridTabla
     public void setIxUI(ixUI ixUI)
     {
         this.ixUI = ixUI;
+    }
+
+    /**
+     * @return the tipoBusqueda
+     */
+    public String getTipoBusqueda()
+    {
+        return tipoBusqueda;
+    }
+
+    /**
+     * @param tipoBusqueda the tipoBusqueda to set
+     */
+    public void setTipoBusqueda(String tipoBusqueda)
+    {
+        this.tipoBusqueda = tipoBusqueda;
     }
 }
