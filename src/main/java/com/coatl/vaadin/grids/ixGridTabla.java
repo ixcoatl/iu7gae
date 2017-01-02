@@ -108,7 +108,8 @@ public class ixGridTabla extends ixPanelTripleVertical
         getEncabezado().addComponent(getFiltro());
         getFiltro().addStyleName("margintop4");
         getEncabezado().addComponent(cualquiera);
-        cualquiera.addStyleName("margin3");
+        cualquiera.addStyleName("margintop6");
+        //cualquiera.addStyleName("margin3");
         //cualquiera.addStyleName("margintop6");
         //this.getEncabezado().setMargin(true);
 
