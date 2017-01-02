@@ -21,14 +21,15 @@ public class ABCUsuariosAdmin extends ixABCDialogosGAE
         super(ui);
 
         this.setNombreTabla("sis_usuarios");
-        this.setColumnas("id,clave,nombre,ap1,ap2,activo,tel_fijo,tel_celular");
-        this.setColumnasVisibles("activo,id,clave,nombre,ap1,ap2,tel_celular");
-
         /*
-         this.setTipoBusqueda("agrupar");
-         this.setColumnas("id,nombre");
-         this.setColumnasVisibles("nombre");
+         this.setColumnas("id,clave,nombre,ap1,ap2,activo,tel_fijo,tel_celular");
+         this.setColumnasVisibles("activo,id,clave,nombre,ap1,ap2,tel_celular");
          */
+
+        this.setTipoBusqueda("agrupar");
+        this.setColumnas("id,nombre");
+        this.setColumnasVisibles("nombre");
+
         this.setTitulo("Usuarios Administradores");
 
         this.agregarColumna("id", "Usuario").setRequerido(true).requiereFiltro().TextField();
