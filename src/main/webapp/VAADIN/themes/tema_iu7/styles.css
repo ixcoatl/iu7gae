@@ -12976,8 +12976,28 @@ div.v-layout.v-horizontal.v-widget {
 	margin-top: 4px;
 }
 
+.tema_iu7 .margintop5 {
+	margin-top: 5px;
+}
+
+.tema_iu7 .margintop6 {
+	margin-top: 6px;
+}
+
+.tema_iu7 .margintop7 {
+	margin-top: 7px;
+}
+
+.tema_iu7 .margintop10 {
+	margin-top: 10px;
+}
+
 .tema_iu7 .paddingtop4 {
 	padding-top: 4px;
+}
+
+.tema_iu7 .margin3 {
+	margin: 3px;
 }
 
 .tema_iu7 .titulo2 {
@@ -12985,10 +13005,6 @@ div.v-layout.v-horizontal.v-widget {
 	text-shadow: 1px 1px 1px rgba(180, 180, 180, 0.5);
 	color: #197DE1;
 	font-weight: bold;
-}
-
-.tema_iu7 .margen1 {
-	margin: 3px;
 }
 
 .tema_iu7 .v-window .v-window-outerheader {

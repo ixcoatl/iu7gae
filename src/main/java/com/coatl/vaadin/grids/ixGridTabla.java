@@ -102,12 +102,15 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         getEncabezado().addComponent(sepFiltro);
         getEncabezado().addComponent(textoFiltro);
-        textoFiltro.setStyleName("paddingtop4");
+        textoFiltro.setStyleName("margintop4");
 
         filtro.addStyleName(ValoTheme.TEXTFIELD_TINY);
         getEncabezado().addComponent(getFiltro());
+        getFiltro().addStyleName("margintop4");
         getEncabezado().addComponent(cualquiera);
-        cualquiera.setStyleName("paddingtop4");
+        cualquiera.addStyleName("margintop6");
+        //cualquiera.addStyleName("margin3");
+        //cualquiera.addStyleName("margintop6");
         //this.getEncabezado().setMargin(true);
 
         this.setComponenteSuperior(getEncabezado());
