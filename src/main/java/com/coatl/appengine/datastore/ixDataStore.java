@@ -14,7 +14,6 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,21 +113,28 @@ public class ixDataStore
         datastore.delete(lista);
     }
 
-    public void fijarAtributoPorIDS(String tabla,
-                                    List<String> m,
+    public void fijarAtributoPorIDs(String tabla,
+                                    List<Map> m,
                                     String prop,
                                     String val)
     {
         List<Entity> entidades = new ArrayList();
-        for (String id : m)
+        for (Map obj : m)
         {
-            Entity e = new Entity(tabla, id);
+            Object id = (String) obj.get("id");
+            Entity e = null;
+            if (id instanceof String)
+            {
+                e = new Entity(tabla, (String) id);
+            } else
+            {
+                e = new Entity(tabla, KeyFactory.createKey(tabla, (Long) id));
+            }
             try
             {
                 e = datastore.get(e.getKey());
                 e.setProperty(prop, val);
                 entidades.add(e);
-
             } catch (Exception ex)
             {
 

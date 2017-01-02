@@ -306,17 +306,17 @@ public class ixABCDialogosGAE extends ixABCDialogos
     }
 
     @Override
-    public void marcarSeleccionadosPorID(List<String> lObjetos)
+    public void marcarSeleccionadosPorID(List<Map> lObjetos)
     {
         //System.out.println("Marcando " + m.size() + " ids seleccionados ");
-        IU7.ds.fijarAtributoPorIDS(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "1");
+        IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "1");
     }
 
     @Override
-    public void marcarDeseleccionadosPorID(List<String> lObjetos)
+    public void marcarDeseleccionadosPorID(List<Map> lObjetos)
     {
         //System.out.println("Marcando " + m.size() + " ids deseleccionados ");
-        IU7.ds.fijarAtributoPorIDS(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "0");
+        IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "0");
     }
 
 }

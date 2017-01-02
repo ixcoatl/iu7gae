@@ -353,15 +353,15 @@ public class ixGridTabla extends ixPanelTripleVertical
         System.out.println("Seleccionados: " + sels.size());
         {
             Iterator<Object> i = sels.iterator();
-            List l = new ArrayList();
+            List<Map> l = new ArrayList();
             while (i.hasNext())
             {
                 int n = (Integer) i.next() - 1;
                 Object[] reng = getTabla().getRenglon(n);
                 Map<String, Object> m = tabla.getRenglonComoMapa(reng);
-                String id = (String) m.get("id");
-                System.out.println("   +" + id);
-                l.add(id);
+                //String id = (String) m.get("id");
+                //System.out.println("   +" + id);
+                l.add(m);
                 if (l.size() > 50)
                 {
                     marcarSeleccionadosPorID(l);
@@ -543,12 +543,12 @@ public class ixGridTabla extends ixPanelTripleVertical
         System.out.println("CLICK!");
     }
 
-    public void marcarSeleccionadosPorID(List<String> m)
+    public void marcarSeleccionadosPorID(List<Map> m)
     {
 
     }
 
-    public void marcarDeseleccionadosPorID(List<String> m)
+    public void marcarDeseleccionadosPorID(List<Map> m)
     {
 
     }
