@@ -233,14 +233,7 @@ public class ixDataStore
     }
 
     /*
-    * BUSQUEDAS EN MAPAS
-     */
- /*
-    public List<Map> getBuscarListaDeMapas(PreparedQuery pq, FetchOptions fo)
-    //(Query q)
-    {
-        return getBuscarListaDeMapas(pq, fo);
-    }
+     * BUSQUEDAS EN MAPAS
      */
     public List<Map> getBuscarListaDeMapas(PreparedQuery pq, FetchOptions fo)
     //(Query q, FetchOptions fo)
@@ -364,7 +357,7 @@ public class ixDataStore
             }
             num++;
         }
-        //System.out.println("Leidos " + num + " objetos de la tabla " + q.getKind());
+
     }
 
     public void getBuscarEnTabla(
@@ -452,7 +445,94 @@ public class ixDataStore
     }
 
     /*
-    * SERVICIOS PRIVADOS
+     *
+     */
+    public void getBuscarEnTablaAgrupando(
+            PreparedQuery pq, FetchOptions fo,
+            String columnas,
+            TablaIF tabla,
+            long inicio,
+            long tamPagina,
+            ixFiltro filtro
+    )
+    {
+        Map diferentes = new HashMap();
+
+        String[] aCols = columnas.split(",");
+        tabla.agregarColumna("id");
+        int n = 0;
+        for (String col : aCols)
+        {
+            aCols[n] = col.toLowerCase();
+            if (!col.equals("id"))
+            {
+                tabla.agregarColumna(col);
+            }
+            n++;
+        }
+
+        Iterator<Entity> iter = pq.asIterable().iterator();
+
+        boolean primero = true;
+        long totalRenglones = 0l;
+        long totalRenglonesFiltrados = 0l;
+        long numPag = 0l;
+
+        while (iter.hasNext())
+        {
+            Entity ee = iter.next();
+
+            Map m = this.entidadAMapa(ee);
+
+            String llaveAgr = hacerLlave(m, columnas);
+            if (diferentes.containsKey(llaveAgr))
+            {
+                if (filtro != null && filtro.cumple(m))
+                {
+                    totalRenglonesFiltrados++;
+                    if (totalRenglones >= inicio && numPag < tamPagina)
+                    {
+                        Object reng[] = new Object[aCols.length];
+                        for (int i = 0; i < aCols.length; i++)
+                        {
+                            if (primero)
+                            {
+                                tabla.agregarClaseColumna(aCols[i].getClass());
+                            }
+                            if (aCols[i].equals("id"))
+                            {
+                                Key llave = ee.getKey();
+                                Object id = null;
+
+                                if (llave.getId() == 0)
+                                {
+                                    id = limpiarLlave(llave.toString());
+                                } else
+                                {
+                                    id = llave.getId();
+                                }
+
+                                reng[i] = id;
+                            } else
+                            {
+                                reng[i] = ee.getProperties().get(aCols[i]);
+                            }
+                        }
+                        primero = false;
+                        tabla.agregarRegnglon(reng);
+                        System.out.println("LLave> " + llaveAgr);
+                        numPag++;
+                    }
+                }
+            }
+            totalRenglones++;
+        }
+        tabla.setTotalDeRenglones(totalRenglones);
+        tabla.setTotalDeRenglonesFiltrados(totalRenglonesFiltrados);
+    }
+
+    /*
+     * SERVICIOS PRIVADOS
      */
     private String limpiarLlave(String llave)
     {
@@ -461,121 +541,143 @@ public class ixDataStore
     }
 
     /*
-    public void borrarTabla(String kind)
-    {
-        //Entity e = new Entity(kind, id);
+     public void borrarTabla(String kind)
+     {
+     //Entity e = new Entity(kind, id);
 
-        try
-        {
+     try
+     {
 
-            MapReduceSettings settings = new MapReduceSettings.Builder()
-                    .setWorkerQueueName("mrworker").build();
+     MapReduceSettings settings = new MapReduceSettings.Builder()
+     .setWorkerQueueName("mrworker").build();
 
 
-            String jobId = MapReduceJob.start(
-                    MapReduceSpecification.of(
-                            "Clean Accounts",
-                            // shard count 50
-                            new DatastoreInput(kind, 50),
-                            new BorradorDeKind(kind),
-                            Marshallers.getVoidMarshaller(),
-                            Marshallers.getVoidMarshaller(),
-                            NoReducer.<Void, Void, Void>create(),
-                            NoOutput.<Void, Void>create(1)),
-                    settings);
+     String jobId = MapReduceJob.start(
+     MapReduceSpecification.of(
+     "Clean Accounts",
+     // shard count 50
+     new DatastoreInput(kind, 50),
+     new BorradorDeKind(kind),
+     Marshallers.getVoidMarshaller(),
+     Marshallers.getVoidMarshaller(),
+     NoReducer.<Void, Void, Void>create(),
+     NoOutput.<Void, Void>create(1)),
+     settings);
 
-        } catch (Exception err)
-        {
-            err.printStackTrace();
-        }
+     } catch (Exception err)
+     {
+     err.printStackTrace();
+     }
 
-    }
+     }
      */
 
- /*
-    public class BorradorDeKind extends Mapper<Entity, Void, Void>
+    /*
+     public class BorradorDeKind extends Mapper<Entity, Void, Void>
+     {
+
+     String nombreEntidad = null;
+
+     public BorradorDeKind(String nombreEntidad)
+     {
+     this.nombreEntidad = nombreEntidad;
+     }
+
+     //private transient DatastoreMutationPool pool;
+     @Override
+     public void beginShard()
+     {
+     // Ikai gives examples of using the pool for
+     // better parallel datastore operations
+     //this.pool = DatastoreMutationPool.forWorker(this);
+
+     // You could optionally use the normal datastore like this
+     //this.datastore =
+     //     DatastoreServiceFactory.getDatastoreService();
+     }
+
+     @Override
+     public void map(Entity value)
+     {
+
+     // During my testing, some of our workers
+     // died with NullPointer's on this field,
+     // as if in some circumstances it goes away.
+     // This ensures we always have it.
+
+     //if (this.pool == null)
+     //{
+     //    this.pool
+     //    = DatastoreMutationPool.forWorker(this);
+
+     //}
+
+     // Slightly paranoid check we have an account
+     if (value.getKind().equals("Account"))
+     {
+     // Logic goes here to determine
+     // if the account should be deleted
+     //if (itShouldBeDeleted)
+     {
+     datastore.delete(value.getKey());
+     }
+     // You could create/update/count here too
+
+     }
+     }
+     }*/
+
+    /*
+     public class BorradorDeLLave extends MapOnlyMapper<Key, Void>
+     {
+
+     private static final long serialVersionUID = -6485226450501339416L;
+
+     // [START datastoreMutationPool]
+     private transient DatastoreMutationPool batcher;
+     // [END datastoreMutationPool]
+
+     // [START begin_and_endSlice]
+     @Override
+     public void beginSlice()
+     {
+     batcher = DatastoreMutationPool.create();
+     }
+
+     @Override
+     public void endSlice()
+     {
+     batcher.flush();
+     }
+     // [END begin_and_endSlice]
+
+     @Override
+     public void map(Key key)
+     {
+     batcher.delete(key);
+     }
+     }
+     */
+    private String hacerLlave(Map m, String columnas)
     {
+        StringBuilder sb = new StringBuilder();
 
-        String nombreEntidad = null;
-
-        public BorradorDeKind(String nombreEntidad)
+        String[] cols = columnas.split(",");
+        int n = 0;
+        for (String col : cols)
         {
-            this.nombreEntidad = nombreEntidad;
-        }
-
-        //private transient DatastoreMutationPool pool;
-        @Override
-        public void beginShard()
-        {
-            // Ikai gives examples of using the pool for
-            // better parallel datastore operations
-            //this.pool = DatastoreMutationPool.forWorker(this);
-
-            // You could optionally use the normal datastore like this
-            //this.datastore =
-            //     DatastoreServiceFactory.getDatastoreService();
-        }
-
-        @Override
-        public void map(Entity value)
-        {
-
-            // During my testing, some of our workers
-            // died with NullPointer's on this field,
-            // as if in some circumstances it goes away.
-            // This ensures we always have it.
-
-            //if (this.pool == null)
-            //{
-            //    this.pool
-            //    = DatastoreMutationPool.forWorker(this);
-
-            //}
-
-            // Slightly paranoid check we have an account
-            if (value.getKind().equals("Account"))
+            col = col.trim();
+            if (!col.equals(" "))
             {
-                // Logic goes here to determine
-                // if the account should be deleted
-                //if (itShouldBeDeleted)
+                if (n > 0)
                 {
-                    datastore.delete(value.getKey());
+                    sb.append("-");
                 }
-                // You could create/update/count here too
-
+                sb.append(col);
+                n++;
             }
         }
-    }*/
 
- /*
-    public class BorradorDeLLave extends MapOnlyMapper<Key, Void>
-    {
-
-        private static final long serialVersionUID = -6485226450501339416L;
-
-        // [START datastoreMutationPool]
-        private transient DatastoreMutationPool batcher;
-        // [END datastoreMutationPool]
-
-        // [START begin_and_endSlice]
-        @Override
-        public void beginSlice()
-        {
-            batcher = DatastoreMutationPool.create();
-        }
-
-        @Override
-        public void endSlice()
-        {
-            batcher.flush();
-        }
-        // [END begin_and_endSlice]
-
-        @Override
-        public void map(Key key)
-        {
-            batcher.delete(key);
-        }
+        return sb.toString();
     }
-     */
 }
