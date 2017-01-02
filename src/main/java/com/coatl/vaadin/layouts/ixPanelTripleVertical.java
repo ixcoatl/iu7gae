@@ -22,10 +22,10 @@ public class ixPanelTripleVertical extends VerticalSplitPanel
     public ixPanelTripleVertical()
     {
         this.setSizeFull();
-        this.setSplitPosition(52, Sizeable.UNITS_PIXELS, false);
+        this.setSplitPosition(52, Sizeable.Unit.PIXELS, false);
 
         interior = new VerticalSplitPanel();
-        interior.setSplitPosition(45, Sizeable.UNITS_PIXELS, true);
+        interior.setSplitPosition(45, Sizeable.Unit.PIXELS, true);
         interior.setSizeFull();
         this.setSecondComponent(interior);
         //System.out.println("Armando panel triple vertical");
@@ -54,12 +54,12 @@ public class ixPanelTripleVertical extends VerticalSplitPanel
 
     public void setSplitPosition1(int pos)
     {
-        this.setSplitPosition(pos, Sizeable.UNITS_PIXELS, false);
+        this.setSplitPosition(pos, Sizeable.Unit.PIXELS, false);
     }
 
     public void setSplitPosition2(int pos)
     {
-        interior.setSplitPosition(pos, Sizeable.UNITS_PIXELS, true);
+        interior.setSplitPosition(pos, Sizeable.Unit.PIXELS, true);
     }
 
 }
