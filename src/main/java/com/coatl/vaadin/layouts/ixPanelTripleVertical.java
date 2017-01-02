@@ -28,12 +28,12 @@ public class ixPanelTripleVertical extends VerticalSplitPanel
         interior.setSplitPosition(45, Sizeable.UNITS_PIXELS, true);
         interior.setSizeFull();
         this.setSecondComponent(interior);
-        System.out.println("Armando panel triple vertical");
+        //System.out.println("Armando panel triple vertical");
 
         /*
-        this.setComponenteSuperior(new Label("primer panel"));
-        this.setComponenteMedio(new Label("segundo panel"));
-        this.setComponenteInferior(new Label("tercer panel"));
+         this.setComponenteSuperior(new Label("primer panel"));
+         this.setComponenteMedio(new Label("segundo panel"));
+         this.setComponenteInferior(new Label("tercer panel"));
          */
     }
 

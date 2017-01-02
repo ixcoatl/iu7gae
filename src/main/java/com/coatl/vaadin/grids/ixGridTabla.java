@@ -350,7 +350,7 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         Collection<Object> rows = grid.getSelectedRows();
         Set<Object> sels = event.getAdded();
-        System.out.println("Seleccionados: " + sels.size());
+        //System.out.println("Seleccionados: " + sels.size());
         {
             Iterator<Object> i = sels.iterator();
             List<Map> l = new ArrayList();
@@ -374,7 +374,7 @@ public class ixGridTabla extends ixPanelTripleVertical
         }
 
         Set<Object> dsels = event.getRemoved();
-        System.out.println("Liberador    : " + dsels.size());
+        //System.out.println("Liberador    : " + dsels.size());
         {
             Iterator<Object> i = dsels.iterator();
             List l = new ArrayList();
@@ -398,21 +398,7 @@ public class ixGridTabla extends ixPanelTripleVertical
             }
 
         }
-        /*
-         Iterator<Object> i = rows.iterator();
 
-         setSeleccionados(new ArrayList());
-
-         while (i.hasNext())
-         {
-         int n = (int) i.next() - 1;
-
-         Object[] reng = getTabla().getRenglon(n);
-         System.out.println("   Seleccionado> " + n + ": " + reng[0]);
-
-         getSeleccionados().add(reng);
-         }
-         */
     }
 
     public Map<String, Object> getRenglonComoMapa(Object[] renglon)

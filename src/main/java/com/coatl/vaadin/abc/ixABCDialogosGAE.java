@@ -10,9 +10,15 @@ import com.coatl.appengine.datastore.ixDataStore;
 import com.coatl.ed.filtros.ixFiltro;
 import com.coatl.ed.ixTablaEnMemoria;
 import com.coatl.vaadin.ixUI;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -308,6 +314,12 @@ public class ixABCDialogosGAE extends ixABCDialogos
     @Override
     public void marcarSeleccionadosPorID(List<Map> lObjetos)
     {
+        if (this.getTipoBusqueda().equals("agrupar"))
+        {
+            marcarSeleccionMultiple(lObjetos, "1");
+            return;
+        }
+
         //System.out.println("Marcando " + m.size() + " ids seleccionados ");
         IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "1");
     }
@@ -315,8 +327,57 @@ public class ixABCDialogosGAE extends ixABCDialogos
     @Override
     public void marcarDeseleccionadosPorID(List<Map> lObjetos)
     {
+        if (this.getTipoBusqueda().equals("agrupar"))
+        {
+            marcarSeleccionMultiple(lObjetos, "0");
+            return;
+        }
+
         //System.out.println("Marcando " + m.size() + " ids deseleccionados ");
         IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "0");
+    }
+
+    private void marcarSeleccionMultiple(List<Map> lObjetos, String marca)
+    {
+        Query q = new Query(this.getNombreTabla());
+        String[] cols = this.getColumnas().split(",");
+        for (Map m : lObjetos)
+        {
+            for (String col : cols)
+            {
+                if (!col.equals("id"))
+                {
+                    Object v = m.get(col);
+                    if (v != null)
+                    {
+                        Filter propertyFilter
+                               = new FilterPredicate(col, FilterOperator.EQUAL, v);
+                        q.setFilter(propertyFilter);
+                        System.out.println("   +Filtro: " + col + " = " + v);
+                    }
+                }
+            }
+        }
+        PreparedQuery preparedQuery = IU7.ds.getDS().prepare(q);
+        //FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+
+        Iterator<Entity> iter = preparedQuery.asIterable().iterator();
+        List l = new ArrayList();
+        while (iter.hasNext())
+        {
+            Entity ee = iter.next();
+            Map<String, Object> m = IU7.ds.entidadAMapa(ee);
+            l.add(m);
+            //System.out.println("   +Marcando " + m.get("id"));
+            if (l.size() >= 50)
+            {
+                IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), l, getColumnaSeleccion(), marca);
+            }
+        }
+        if (l.size() > 0)
+        {
+            IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), l, getColumnaSeleccion(), marca);
+        }
     }
 
 }

@@ -290,7 +290,8 @@ public class ixDataStore
     }
 
     public void getBuscarEnTabla(
-            PreparedQuery pq, FetchOptions fo,
+            PreparedQuery pq,
+            FetchOptions fo,
             String columnas,
             TablaIF tabla,
             long inicio,
