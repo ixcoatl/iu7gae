@@ -163,6 +163,7 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         cualquiera.addListener(new Property.ValueChangeListener()
         {
+            @Override
             public void valueChange(ValueChangeEvent event)
             {
                 armarTabla();
