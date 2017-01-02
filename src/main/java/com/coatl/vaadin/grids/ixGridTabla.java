@@ -383,10 +383,10 @@ public class ixGridTabla extends ixPanelTripleVertical
                 int n = (Integer) i.next() - 1;
                 Object[] reng = getTabla().getRenglon(n);
                 Map<String, Object> m = tabla.getRenglonComoMapa(reng);
-                String id = (String) m.get("id");
-                System.out.println("   +" + id);
+                //String id = (String) m.get("id");
+                //System.out.println("   +" + id);
 
-                l.add(id);
+                l.add(m);
                 if (l.size() > 50)
                 {
                     marcarDeseleccionadosPorID(l);
