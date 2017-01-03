@@ -400,21 +400,6 @@ public class ixGridTabla extends ixPanelTripleVertical
             }
 
         }
-        /*
-        Iterator<Object> i = rows.iterator();
-
-        setSeleccionados(new ArrayList());
-
-        while (i.hasNext())
-        {
-            int n = (int) i.next() - 1;
-
-            Object[] reng = getTabla().getRenglon(n);
-            System.out.println("   Seleccionado> " + n + ": " + reng[0]);
-
-            getSeleccionados().add(reng);
-        }
-         */
     }
 
     public Map<String, Object> getRenglonComoMapa(Object[] renglon)
