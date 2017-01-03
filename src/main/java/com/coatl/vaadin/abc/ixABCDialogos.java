@@ -37,14 +37,16 @@ public class ixABCDialogos extends ixGridTabla
     Button preguntarCrear = new Button("\u2605 Crear");
     Button recargar = new Button("\uD83D\uDD0D Buscar");
 
-    Button bCrear = new Button("\u2605 Crear");
-    Button bGuardar = new Button("\uD83D\uDCBE Guardar");
-    Button bBorrar = new Button("\u232B Borrar");
-    Button bConfBorrar = new Button("\u232B Confirmar borrar");
+    private Button bCrear = new Button("\u2605 Crear");
+    private Button bGuardar = new Button("\uD83D\uDCBE Guardar");
+    private Button bBorrar = new Button("\u232B Borrar");
+    private Button bConfBorrar = new Button("\u232B Confirmar borrar");
 
     Label espaciador1 = new Label();
     Label lBusqueda = new Label();
     TextField buqueda = new TextField();
+
+    private String tipoBusqueda = "";
 
     private ixUI ixUI;
 
@@ -70,19 +72,19 @@ public class ixABCDialogos extends ixGridTabla
                 //System.out.println("CMD> [" + cmd + "]");
                 if (cmd.equals("bConfBorrar"))
                 {
-                    agregar(pila, bConfBorrar);
+                    agregar(pila, getbConfBorrar());
 
                 } else if (cmd.equals("bBorrar"))
                 {
-                    agregar(pila, bBorrar);
+                    agregar(pila, getbBorrar());
 
                 } else if (cmd.equals("bGuardar"))
                 {
-                    agregar(pila, bGuardar);
+                    agregar(pila, getbGuardar());
 
                 } else if (cmd.equals("bCrear"))
                 {
-                    agregar(pila, bCrear);
+                    agregar(pila, getbCrear());
                 } else if (cmd.startsWith("H"))
                 {
                     HorizontalLayout hl = new HorizontalLayout();
@@ -225,7 +227,7 @@ public class ixABCDialogos extends ixGridTabla
     }
 
     /*
-    * CREAR
+     * CREAR
      */
     public ixDefinicionDeForma defFormaCrear = null;
 
@@ -262,7 +264,7 @@ public class ixABCDialogos extends ixGridTabla
     }
 
     /*
-    * EDITAR
+     * EDITAR
      */
     ixDefinicionDeForma defFormaEditar = null;
 
@@ -295,7 +297,7 @@ public class ixABCDialogos extends ixGridTabla
 
 
     /*
-    * BORRAR
+     * BORRAR
      */
     ixDefinicionDeForma defFormaBorrar = null;
 
@@ -380,7 +382,7 @@ public class ixABCDialogos extends ixGridTabla
 
         });
 
-        bCrear.addClickListener(new Button.ClickListener()
+        getbCrear().addClickListener(new Button.ClickListener()
         {
             @Override
             public void buttonClick(Button.ClickEvent event)
@@ -390,7 +392,7 @@ public class ixABCDialogos extends ixGridTabla
 
         });
 
-        bGuardar.addClickListener(new Button.ClickListener()
+        getbGuardar().addClickListener(new Button.ClickListener()
         {
             @Override
             public void buttonClick(Button.ClickEvent event)
@@ -400,7 +402,7 @@ public class ixABCDialogos extends ixGridTabla
 
         });
 
-        bBorrar.addClickListener(new Button.ClickListener()
+        getbBorrar().addClickListener(new Button.ClickListener()
         {
             @Override
             public void buttonClick(Button.ClickEvent event)
@@ -410,7 +412,7 @@ public class ixABCDialogos extends ixGridTabla
 
         });
 
-        bConfBorrar.addClickListener(new Button.ClickListener()
+        getbConfBorrar().addClickListener(new Button.ClickListener()
         {
             @Override
             public void buttonClick(Button.ClickEvent event)
@@ -444,12 +446,12 @@ public class ixABCDialogos extends ixGridTabla
     }
 
     /*
-    *
-    *
-    *
-    *
-    *
-    *
+     *
+     *
+     *
+     *
+     *
+     *
      */
     public ixDefinicionDeColumna agregarColumna(String nombre, String titulo)
     {
@@ -536,5 +538,85 @@ public class ixABCDialogos extends ixGridTabla
     public void setIxUI(ixUI ixUI)
     {
         this.ixUI = ixUI;
+    }
+
+    /**
+     * @return the tipoBusqueda
+     */
+    public String getTipoBusqueda()
+    {
+        return tipoBusqueda;
+    }
+
+    /**
+     * @param tipoBusqueda the tipoBusqueda to set
+     */
+    public void setTipoBusqueda(String tipoBusqueda)
+    {
+        this.tipoBusqueda = tipoBusqueda;
+    }
+
+    /**
+     * @return the bCrear
+     */
+    public Button getbCrear()
+    {
+        return bCrear;
+    }
+
+    /**
+     * @param bCrear the bCrear to set
+     */
+    public void setbCrear(Button bCrear)
+    {
+        this.bCrear = bCrear;
+    }
+
+    /**
+     * @return the bGuardar
+     */
+    public Button getbGuardar()
+    {
+        return bGuardar;
+    }
+
+    /**
+     * @param bGuardar the bGuardar to set
+     */
+    public void setbGuardar(Button bGuardar)
+    {
+        this.bGuardar = bGuardar;
+    }
+
+    /**
+     * @return the bBorrar
+     */
+    public Button getbBorrar()
+    {
+        return bBorrar;
+    }
+
+    /**
+     * @param bBorrar the bBorrar to set
+     */
+    public void setbBorrar(Button bBorrar)
+    {
+        this.bBorrar = bBorrar;
+    }
+
+    /**
+     * @return the bConfBorrar
+     */
+    public Button getbConfBorrar()
+    {
+        return bConfBorrar;
+    }
+
+    /**
+     * @param bConfBorrar the bConfBorrar to set
+     */
+    public void setbConfBorrar(Button bConfBorrar)
+    {
+        this.bConfBorrar = bConfBorrar;
     }
 }

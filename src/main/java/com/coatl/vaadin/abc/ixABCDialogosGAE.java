@@ -10,9 +10,15 @@ import com.coatl.appengine.datastore.ixDataStore;
 import com.coatl.ed.filtros.ixFiltro;
 import com.coatl.ed.ixTablaEnMemoria;
 import com.coatl.vaadin.ixUI;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,114 +37,114 @@ public class ixABCDialogosGAE extends ixABCDialogos
     }
 
     /*
-    *
-    * CONFIGURAR LAS COLUMNAS DE LOS ENCABEZADOS
-    *
+     *
+     * CONFIGURAR LAS COLUMNAS DE LOS ENCABEZADOS
+     *
      */
- /*
-    @Override
-    public void configurarEncabezados(Grid grid)
-    {
-        HeaderRow rengFiltros = null;
+    /*
+     @Override
+     public void configurarEncabezados(Grid grid)
+     {
+     HeaderRow rengFiltros = null;
 
-        int nCol = 0;
-        String[] colVis = this.getArregloColumnasVisibles();
-        for (Object pid
-             : grid.getContainerDataSource()
-                .getContainerPropertyIds())
-        {
-            ixDefinicionDeColumna defCol = this.getDefinicionDeColumna(colVis[nCol]);
+     int nCol = 0;
+     String[] colVis = this.getArregloColumnasVisibles();
+     for (Object pid
+     : grid.getContainerDataSource()
+     .getContainerPropertyIds())
+     {
+     ixDefinicionDeColumna defCol = this.getDefinicionDeColumna(colVis[nCol]);
 
-            if (defCol.tieneFiltro())
-            {
-                //System.out.println("Se requiere filtro para: " + defCol.getNombre());
-                if (rengFiltros == null)
-                {
-                    //System.out.println("... haciendo renglon de filtros");
-                    rengFiltros = grid.appendHeaderRow();
-                }
-                HeaderCell cell = rengFiltros.getCell(pid);
-                ixFiltroDeTexto filtro = new ixFiltroDeTexto(this, defCol);
-                cell.setComponent(filtro);
-                if (this.getActivarFiltro() != null)
-                {
-                    if (defCol.getNombre().equals(this.getActivarFiltro()))
-                    {
-                        filtro.getTexto().focus();
-                        filtro.getTexto().setCursorPosition(10000);
-                    }
-                }
-            }
+     if (defCol.tieneFiltro())
+     {
+     //System.out.println("Se requiere filtro para: " + defCol.getNombre());
+     if (rengFiltros == null)
+     {
+     //System.out.println("... haciendo renglon de filtros");
+     rengFiltros = grid.appendHeaderRow();
+     }
+     HeaderCell cell = rengFiltros.getCell(pid);
+     ixFiltroDeTexto filtro = new ixFiltroDeTexto(this, defCol);
+     cell.setComponent(filtro);
+     if (this.getActivarFiltro() != null)
+     {
+     if (defCol.getNombre().equals(this.getActivarFiltro()))
+     {
+     filtro.getTexto().focus();
+     filtro.getTexto().setCursorPosition(10000);
+     }
+     }
+     }
 
-            nCol++;
-        }
-        //System.out.println("Activar filtro: " + this.getActivarFiltro());
-    }
+     nCol++;
+     }
+     //System.out.println("Activar filtro: " + this.getActivarFiltro());
+     }
 
-    private void configurarFiltros(Query query)
-    {
-        String[] colVis = this.getArregloColumnasVisibles();
-        int nCol = 0;
-        List<Filter> filtros = new ArrayList();
-        for (String col : colVis)
-        {
-            ixDefinicionDeColumna defCol = this.getDefinicionDeColumna(colVis[nCol]);
+     private void configurarFiltros(Query query)
+     {
+     String[] colVis = this.getArregloColumnasVisibles();
+     int nCol = 0;
+     List<Filter> filtros = new ArrayList();
+     for (String col : colVis)
+     {
+     ixDefinicionDeColumna defCol = this.getDefinicionDeColumna(colVis[nCol]);
 
-            if (defCol.tieneFiltro())
-            {
-                String cadf = defCol.getFiltro();
-                if (cadf != null && cadf.length() > 0)
-                {
+     if (defCol.tieneFiltro())
+     {
+     String cadf = defCol.getFiltro();
+     if (cadf != null && cadf.length() > 0)
+     {
 
-                    if (colVis[nCol].equals("id"))
-                    {
+     if (colVis[nCol].equals("id"))
+     {
 
-                        Key llave = KeyFactory.createKey(this.getNombreTabla(), cadf);
-                        Filter propertyFilter
-                               = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
-                                                     FilterOperator.GREATER_THAN_OR_EQUAL,
-                                                     llave);
-                        filtros.add(propertyFilter);
+     Key llave = KeyFactory.createKey(this.getNombreTabla(), cadf);
+     Filter propertyFilter
+     = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+     FilterOperator.GREATER_THAN_OR_EQUAL,
+     llave);
+     filtros.add(propertyFilter);
 
-                        llave = KeyFactory.createKey(this.getNombreTabla(), cadf + "\ufffd");
-                        propertyFilter
-                        = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
-                                              FilterOperator.LESS_THAN,
-                                              llave);
-                        filtros.add(propertyFilter);
-                        System.out.println("  Filtrando ID " + colVis[nCol] + " >= " + cadf);
-                    } else
-                    {
+     llave = KeyFactory.createKey(this.getNombreTabla(), cadf + "\ufffd");
+     propertyFilter
+     = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+     FilterOperator.LESS_THAN,
+     llave);
+     filtros.add(propertyFilter);
+     System.out.println("  Filtrando ID " + colVis[nCol] + " >= " + cadf);
+     } else
+     {
 
-                        Filter propertyFilter
-                               = new FilterPredicate(colVis[nCol],
-                                                     FilterOperator.GREATER_THAN_OR_EQUAL,
-                                                     cadf);
-                        filtros.add(propertyFilter);
-                        propertyFilter
-                        = new FilterPredicate(colVis[nCol],
-                                              FilterOperator.LESS_THAN,
-                                              cadf + "\ufffd");
-                        filtros.add(propertyFilter);
-                        //filtros.add(propertyFilter);
-                        System.out.println("  Filtrando propiedad " + colVis[nCol] + " >= " + cadf);
-                    }
-                }
-            }
-            nCol++;
-        }
-        if (filtros.size() > 1)
-        {
-            CompositeFilter cf = new CompositeFilter(CompositeFilterOperator.AND, filtros);
-            query.setFilter(cf);
-        }
-        if (filtros.size() == 1)
-        {
+     Filter propertyFilter
+     = new FilterPredicate(colVis[nCol],
+     FilterOperator.GREATER_THAN_OR_EQUAL,
+     cadf);
+     filtros.add(propertyFilter);
+     propertyFilter
+     = new FilterPredicate(colVis[nCol],
+     FilterOperator.LESS_THAN,
+     cadf + "\ufffd");
+     filtros.add(propertyFilter);
+     //filtros.add(propertyFilter);
+     System.out.println("  Filtrando propiedad " + colVis[nCol] + " >= " + cadf);
+     }
+     }
+     }
+     nCol++;
+     }
+     if (filtros.size() > 1)
+     {
+     CompositeFilter cf = new CompositeFilter(CompositeFilterOperator.AND, filtros);
+     query.setFilter(cf);
+     }
+     if (filtros.size() == 1)
+     {
 
-            query.setFilter(filtros.get(0));
-        }
+     query.setFilter(filtros.get(0));
+     }
 
-    }
+     }
      */
     public ixFiltro getFiltros()
     {
@@ -172,7 +178,7 @@ public class ixABCDialogosGAE extends ixABCDialogos
     }
 
     /*
-    * La tabla
+     * La tabla
      */
     @Override
     public ixTablaEnMemoria getTabla(long pagina, long renglonesPorPagina)
@@ -196,21 +202,38 @@ public class ixABCDialogosGAE extends ixABCDialogos
         //System.out.println("Columnas de tabla: " + cols);
 
         setTabla(new ixTablaEnMemoria());
-        IU7.ds.getBuscarEnTabla(
-                preparedQuery,
-                fetchOptions,
-                cols,
-                tabla,
-                pagina * renglonesPorPagina, // La posicion de inicio
-                renglonesPorPagina,
-                getFiltros()
-        );
+
+        if (this.getTipoBusqueda().equals("agrupar"))
+        {
+            System.out.println("Agrupando...");
+            IU7.ds.getBuscarEnTablaAgrupando(
+                    preparedQuery,
+                    fetchOptions,
+                    cols,
+                    this.getColumnas(),
+                    tabla,
+                    pagina * renglonesPorPagina, // La posicion de inicio
+                    renglonesPorPagina,
+                    getFiltros()
+            );
+        } else
+        {
+            IU7.ds.getBuscarEnTabla(
+                    preparedQuery,
+                    fetchOptions,
+                    cols,
+                    tabla,
+                    pagina * renglonesPorPagina, // La posicion de inicio
+                    renglonesPorPagina,
+                    getFiltros()
+            );
+        }
 
         return tabla;
     }
 
     /*
-    * CREAR
+     * CREAR
      */
     @Override
     public void crear()
@@ -229,7 +252,7 @@ public class ixABCDialogosGAE extends ixABCDialogos
 
 
     /*
-    * EDITAR
+     * EDITAR
      */
     @Override
     public void guardar()
@@ -246,7 +269,7 @@ public class ixABCDialogosGAE extends ixABCDialogos
 
 
     /*
-    * BORRAR
+     * BORRAR
      */
     @Override
     public void borrar()
@@ -277,9 +300,9 @@ public class ixABCDialogosGAE extends ixABCDialogos
 
 
     /*
-    *
-    * CONFIGURAR LA SELECCIÓN
-    *
+     *
+     * CONFIGURAR LA SELECCIÓN
+     *
      */
     @Override
     public String getColumnaSeleccion()
@@ -289,17 +312,72 @@ public class ixABCDialogosGAE extends ixABCDialogos
     }
 
     @Override
-    public void marcarSeleccionadosPorID(List<String> m)
+    public void marcarSeleccionadosPorID(List<Map> lObjetos)
     {
+        if (this.getTipoBusqueda().equals("agrupar"))
+        {
+            marcarSeleccionMultiple(lObjetos, "1");
+            return;
+        }
+
         //System.out.println("Marcando " + m.size() + " ids seleccionados ");
-        IU7.ds.fijarAtributoPorIDS(this.getNombreTabla(), m, getColumnaSeleccion(), "1");
+        IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "1");
     }
 
     @Override
-    public void marcarDeseleccionadosPorID(List<String> m)
+    public void marcarDeseleccionadosPorID(List<Map> lObjetos)
     {
+        if (this.getTipoBusqueda().equals("agrupar"))
+        {
+            marcarSeleccionMultiple(lObjetos, "0");
+            return;
+        }
+
         //System.out.println("Marcando " + m.size() + " ids deseleccionados ");
-        IU7.ds.fijarAtributoPorIDS(this.getNombreTabla(), m, getColumnaSeleccion(), "0");
+        IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), lObjetos, getColumnaSeleccion(), "0");
+    }
+
+    private void marcarSeleccionMultiple(List<Map> lObjetos, String marca)
+    {
+        Query q = new Query(this.getNombreTabla());
+        String[] cols = this.getColumnas().split(",");
+        for (Map m : lObjetos)
+        {
+            for (String col : cols)
+            {
+                if (!col.equals("id"))
+                {
+                    Object v = m.get(col);
+                    if (v != null)
+                    {
+                        Filter propertyFilter
+                               = new FilterPredicate(col, FilterOperator.EQUAL, v);
+                        q.setFilter(propertyFilter);
+                        System.out.println("   +Filtro: " + col + " = " + v);
+                    }
+                }
+            }
+        }
+        PreparedQuery preparedQuery = IU7.ds.getDS().prepare(q);
+        //FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+
+        Iterator<Entity> iter = preparedQuery.asIterable().iterator();
+        List l = new ArrayList();
+        while (iter.hasNext())
+        {
+            Entity ee = iter.next();
+            Map<String, Object> m = IU7.ds.entidadAMapa(ee);
+            l.add(m);
+            //System.out.println("   +Marcando " + m.get("id"));
+            if (l.size() >= 50)
+            {
+                IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), l, getColumnaSeleccion(), marca);
+            }
+        }
+        if (l.size() > 0)
+        {
+            IU7.ds.fijarAtributoPorIDs(this.getNombreTabla(), l, getColumnaSeleccion(), marca);
+        }
     }
 
 }

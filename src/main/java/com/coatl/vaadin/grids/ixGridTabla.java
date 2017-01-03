@@ -10,10 +10,8 @@ import com.coatl.ed.ixTablaEnMemoria;
 import com.coatl.vaadin.abc.filtro.ixCambioDeFiltroGridTabla;
 import com.coatl.vaadin.layouts.ixPanelTripleVertical;
 import com.vaadin.annotations.Theme;
-import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickListener;
@@ -165,6 +163,7 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         cualquiera.addListener(new Property.ValueChangeListener()
         {
+            @Override
             public void valueChange(ValueChangeEvent event)
             {
                 armarTabla();
@@ -263,10 +262,10 @@ public class ixGridTabla extends ixPanelTripleVertical
     }
 
     /*
-    public void configurarEncabezados(Grid tabla)
-    {
+     public void configurarEncabezados(Grid tabla)
+     {
 
-    }
+     }
      */
     public String getColumnaSeleccion()
     {
@@ -352,18 +351,18 @@ public class ixGridTabla extends ixPanelTripleVertical
 
         Collection<Object> rows = grid.getSelectedRows();
         Set<Object> sels = event.getAdded();
-        System.out.println("Seleccionados: " + sels.size());
+        //System.out.println("Seleccionados: " + sels.size());
         {
             Iterator<Object> i = sels.iterator();
-            List l = new ArrayList();
+            List<Map> l = new ArrayList();
             while (i.hasNext())
             {
                 int n = (Integer) i.next() - 1;
                 Object[] reng = getTabla().getRenglon(n);
                 Map<String, Object> m = tabla.getRenglonComoMapa(reng);
-                String id = (String) m.get("id");
-                System.out.println("   +" + id);
-                l.add(id);
+                //String id = (String) m.get("id");
+                //System.out.println("   +" + id);
+                l.add(m);
                 if (l.size() > 50)
                 {
                     marcarSeleccionadosPorID(l);
@@ -376,7 +375,7 @@ public class ixGridTabla extends ixPanelTripleVertical
         }
 
         Set<Object> dsels = event.getRemoved();
-        System.out.println("Liberador    : " + dsels.size());
+        //System.out.println("Liberador    : " + dsels.size());
         {
             Iterator<Object> i = dsels.iterator();
             List l = new ArrayList();
@@ -385,10 +384,10 @@ public class ixGridTabla extends ixPanelTripleVertical
                 int n = (Integer) i.next() - 1;
                 Object[] reng = getTabla().getRenglon(n);
                 Map<String, Object> m = tabla.getRenglonComoMapa(reng);
-                String id = (String) m.get("id");
-                System.out.println("   +" + id);
+                //String id = (String) m.get("id");
+                //System.out.println("   +" + id);
 
-                l.add(id);
+                l.add(m);
                 if (l.size() > 50)
                 {
                     marcarDeseleccionadosPorID(l);
@@ -400,6 +399,7 @@ public class ixGridTabla extends ixPanelTripleVertical
             }
 
         }
+
     }
 
     public Map<String, Object> getRenglonComoMapa(Object[] renglon)
@@ -530,12 +530,12 @@ public class ixGridTabla extends ixPanelTripleVertical
         System.out.println("CLICK!");
     }
 
-    public void marcarSeleccionadosPorID(List<String> m)
+    public void marcarSeleccionadosPorID(List<Map> m)
     {
 
     }
 
-    public void marcarDeseleccionadosPorID(List<String> m)
+    public void marcarDeseleccionadosPorID(List<Map> m)
     {
 
     }
