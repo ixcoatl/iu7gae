@@ -13,13 +13,13 @@ public class ixCondicionDeTupla extends ixCondicionDeFiltro
 {
 
     private String nombre = null;
-    private String valor = null;
+    private Object valor = null;
 
     public ixCondicionDeTupla()
     {
     }
 
-    public ixCondicionDeTupla(String n, String v)
+    public ixCondicionDeTupla(String n, Object v)
     {
         this.nombre = n;
         this.valor = v;
@@ -44,7 +44,7 @@ public class ixCondicionDeTupla extends ixCondicionDeFiltro
     /**
      * @return the valor
      */
-    public String getValor()
+    public Object getValor()
     {
         return valor;
     }
@@ -52,7 +52,7 @@ public class ixCondicionDeTupla extends ixCondicionDeFiltro
     /**
      * @param valor the valor to set
      */
-    public void setValor(String valor)
+    public void setValor(Object valor)
     {
         this.valor = valor;
     }

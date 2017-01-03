@@ -30,7 +30,7 @@ public class ixCondicionCadenaContieneIgnCaso extends ixCondicionDeTupla
         String val = (String) m.get(this.getNombre());
         if (val != null && this.getValor() != null)
         {
-            return val.toLowerCase().contains(this.getValor().toLowerCase());
+            return val.toLowerCase().contains(((String) this.getValor()).toLowerCase());
         }
         return false;
     }
